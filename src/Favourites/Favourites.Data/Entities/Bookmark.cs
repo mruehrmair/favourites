@@ -2,11 +2,8 @@
 
 namespace Favourites.Data.Entities
 {
-    public class Bookmark
+    public class Bookmark : EntityBase
     {
-        [Key]
-        public int Id { get; set; }
-
         [Required]
         [MaxLength(50)]
         public string Name { get; set; }
