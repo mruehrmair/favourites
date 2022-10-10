@@ -23,9 +23,9 @@ namespace Favourites.Data.Services
             return await _dbContext.Bookmarks.ToListAsync();
         }
 
-        public Task<IEnumerable<Tag>> GetTags()
+        public async Task<IEnumerable<Tag>> GetTags()
         {
-            throw new NotImplementedException();
+            return await _dbContext.Tags.ToListAsync();
         }
     }
 }

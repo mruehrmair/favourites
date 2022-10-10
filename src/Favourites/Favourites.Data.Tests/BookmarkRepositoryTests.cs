@@ -25,5 +25,19 @@ namespace Favourites.Data.Tests
             Assert.That(bookmarks.Count(), Is.EqualTo(expectedNumberOfSeededObjects));
         }
 
+        [Test]
+        public async Task GetTags_BaseSeeding_ReturnsCorrectNumberOfObjects()
+        {
+            //Arrange
+            var sut = new BookmarkRepository(DbContext);
+            const int expectedNumberOfSeededObjects = 3;
+
+            //Act
+            var tags = await sut.GetTags();
+
+            //Assert
+            Assert.That(tags.Count(), Is.EqualTo(expectedNumberOfSeededObjects));
+        }
+
     }
 }

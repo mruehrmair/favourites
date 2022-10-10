@@ -26,15 +26,16 @@ namespace Favourites.Data.Tests
 
             if (DbContext.Database.EnsureCreated())
             {
+                var rpgTag = new Tag("rpg");
                 DbContext.AddRange(
                     new Bookmark("donjon", new Uri("https://donjon.bin.sh/"))
                     {
                         Description = "RPG Randomizer",
-                        Tags = new[] { new Tag("rpg") },
+                        Tags = new[] { rpgTag },
                     },
                     new Bookmark("roll20APIScripts", new Uri("https://github.com/RobinKuiper/Roll20APIScripts"))
                     {
-                        Tags = new[] { new Tag("rpg"), new Tag("roll20"), new Tag("github") }
+                        Tags = new[] { rpgTag, new Tag("roll20"), new Tag("github") }
                     });
                 DbContext.SaveChanges();
             }
