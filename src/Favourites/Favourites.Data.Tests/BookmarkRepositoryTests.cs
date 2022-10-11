@@ -1,4 +1,5 @@
-﻿using Favourites.Data.Services;
+﻿using Favourites.Data.Entities;
+using Favourites.Data.Services;
 
 namespace Favourites.Data.Tests
 {
@@ -21,6 +22,22 @@ namespace Favourites.Data.Tests
             //Act
             var bookmarks = await sut.GetAllAsync();
             
+            //Assert
+            Assert.That(bookmarks.Count(), Is.EqualTo(expectedNumberOfSeededObjects));
+        }
+
+        [Test]
+        public async Task UpsertBookmark_NewBookmark_BookmarkAdded()
+        {
+            //Arrange
+            var sut = new BookmarkRepository(DbContext);
+            var newBookmark = new Bookmark("OpenCms", new Uri("http://www.opencms.org/"));
+            const int expectedNumberOfSeededObjects = 3;
+
+            //Act
+            await sut.UpsertAsync(newBookmark);
+            var bookmarks = await sut.GetAllAsync();
+
             //Assert
             Assert.That(bookmarks.Count(), Is.EqualTo(expectedNumberOfSeededObjects));
         }

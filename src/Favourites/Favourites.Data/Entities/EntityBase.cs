@@ -4,7 +4,16 @@ namespace Favourites.Data.Entities
 {
     public abstract class EntityBase
     {
+        [Required]
         [Key]
-        public int Id { get; set; }
+        [MaxLength(50)]
+        public string Name { get; set; }
+
+        public DateTime ModificationDate { get; set; }
+
+        public EntityBase(string name)
+        {
+            Name = name;
+        }
     }
 }

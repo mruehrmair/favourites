@@ -11,15 +11,28 @@ namespace Favourites.Data.Services
         {
             DbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }
-               
+
         public async Task<IEnumerable<T>> GetAllAsync()
         {
             return await DbContext.Set<T>().ToListAsync();
         }
 
-        public Task UpsertAsync(T entity)
+        public async Task UpsertAsync(T entity)
         {
-            throw new NotImplementedException();
+            var set = DbContext.Set<T>();
+            var dbEntity = await set.FindAsync(entity.Name);
+            entity.ModificationDate = DateTime.UtcNow;
+            if (dbEntity != null)
+            {
+                //Update
+                set.Update(entity);
+            }
+            else
+            {
+                //Insert               
+                set.Add(entity);
+            }
+            await DbContext.SaveChangesAsync();
         }
     }
 }

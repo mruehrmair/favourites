@@ -1,18 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Favourites.Data.Entities
+﻿namespace Favourites.Data.Entities
 {
     public class Tag : EntityBase
-    {        
-        [Required]
-        [MaxLength(50)]
-        public string Name { get; set; }
-
+    {
         public ICollection<Bookmark>? Bookmarks { get; set; }
 
-        public Tag(string name)
+        public Tag(string name) : base(name)
         {
-            Name = name;
         }
     }
 }
