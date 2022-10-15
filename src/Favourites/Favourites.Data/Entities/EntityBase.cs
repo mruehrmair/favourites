@@ -9,9 +9,10 @@ namespace Favourites.Data.Entities
         [MaxLength(50)]
         public string Name { get; set; }
 
+        // ReSharper disable once UnusedAutoPropertyAccessor.Global
         public DateTime ModificationDate { get; set; }
 
-        public EntityBase(string name)
+        protected EntityBase(string name)
         {
             Name = name;
         }

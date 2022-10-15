@@ -8,9 +8,9 @@ namespace Favourites.Data.Tests
     internal abstract class AbstractTest
     {
         private const string InMemoryConnectionString = "DataSource=:memory:";
-        private SqliteConnection _connection;
+        private SqliteConnection _connection = null!;
 
-        protected BookmarkDbContext DbContext;
+        protected BookmarkDbContext DbContext = null!;
 
         [SetUp]
         public void BaseSetUp()

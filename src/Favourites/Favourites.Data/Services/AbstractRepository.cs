@@ -5,26 +5,27 @@ namespace Favourites.Data.Services
 {
     public abstract class AbstractRepository<T> : IRepository<T> where T : EntityBase
     {
-        protected readonly DbContext DbContext;
+        private readonly DbContext _dbContext;
 
-        public AbstractRepository(DbContext dbContext)
+        protected AbstractRepository(DbContext dbContext)
         {
-            DbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync()
+        public async Task<ICollection<T>> GetAllAsync()
         {
-            return await DbContext.Set<T>().ToListAsync();
+            return await _dbContext.Set<T>().ToListAsync();
         }
 
         public async Task UpsertAsync(T entity)
         {
-            var set = DbContext.Set<T>();
+            var set = _dbContext.Set<T>();
             var dbEntity = await set.FindAsync(entity.Name);
             entity.ModificationDate = DateTime.UtcNow;
             if (dbEntity != null)
             {
                 //Update
+                _dbContext.Entry(dbEntity).State = EntityState.Detached;
                 set.Update(entity);
             }
             else
@@ -32,7 +33,7 @@ namespace Favourites.Data.Services
                 //Insert               
                 set.Add(entity);
             }
-            await DbContext.SaveChangesAsync();
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

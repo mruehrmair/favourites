@@ -23,15 +23,15 @@ namespace Favourites.Data.Tests
             var bookmarks = await sut.GetAllAsync();
             
             //Assert
-            Assert.That(bookmarks.Count(), Is.EqualTo(expectedNumberOfSeededObjects));
+            Assert.That(bookmarks, Has.Count.EqualTo(expectedNumberOfSeededObjects));
         }
 
         [Test]
-        public async Task UpsertBookmark_NewBookmark_BookmarkAdded()
+        public async Task UpsertBookmark_NewBookmarkWithoutTags_BookmarkAdded()
         {
             //Arrange
             var sut = new BookmarkRepository(DbContext);
-            var newBookmark = new Bookmark("OpenCms", new Uri("http://www.opencms.org/"));
+            var newBookmark = new Bookmark("opencms", new Uri("https://www.opencms.org/"));
             const int expectedNumberOfSeededObjects = 3;
 
             //Act
@@ -39,9 +39,30 @@ namespace Favourites.Data.Tests
             var bookmarks = await sut.GetAllAsync();
 
             //Assert
-            Assert.That(bookmarks.Count(), Is.EqualTo(expectedNumberOfSeededObjects));
+            Assert.That(bookmarks, Has.Count.EqualTo(expectedNumberOfSeededObjects));
         }
 
+        [Test]
+        public async Task UpsertBookmark_ExistingBookmarkWithoutTags_BookmarkUpdated()
+        {
+            //Arrange
+            const string description = "RPG Randomizer website";
+            const string name = "donjon";
+            var sut = new BookmarkRepository(DbContext);
+            var existingBookmark = new Bookmark(name, new Uri("https://donjon.bin.sh/"))
+            {
+                Description = description
+            };
+            const int expectedNumberOfSeededObjects = 2;
+
+            //Act
+            await sut.UpsertAsync(existingBookmark);
+            var bookmarks = await sut.GetAllAsync();
+
+            //Assert
+            Assert.That(bookmarks, Has.Count.EqualTo(expectedNumberOfSeededObjects));
+            Assert.That(bookmarks.FirstOrDefault(x=>x.Name == name)?.Description, Is.EqualTo(description));
+        }
 
         [Test]
         public async Task GetTags_BaseSeeding_ReturnsCorrectNumberOfObjects()
@@ -54,7 +75,7 @@ namespace Favourites.Data.Tests
             var tags = await sut.GetAllAsync();
 
             //Assert
-            Assert.That(tags.Count(), Is.EqualTo(expectedNumberOfSeededObjects));
+            Assert.That(tags, Has.Count.EqualTo(expectedNumberOfSeededObjects));
         }
     }
 }
