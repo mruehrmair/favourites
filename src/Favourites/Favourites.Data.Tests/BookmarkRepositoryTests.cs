@@ -3,7 +3,6 @@ using Favourites.Data.Services;
 
 namespace Favourites.Data.Tests
 {
-
     internal class BookmarkRepositoryTests : AbstractTest
     {
         [Test]
@@ -21,7 +20,7 @@ namespace Favourites.Data.Tests
 
             //Act
             var bookmarks = await sut.GetAllAsync();
-            
+
             //Assert
             Assert.That(bookmarks, Has.Count.EqualTo(expectedNumberOfSeededObjects));
         }
@@ -61,7 +60,34 @@ namespace Favourites.Data.Tests
 
             //Assert
             Assert.That(bookmarks, Has.Count.EqualTo(expectedNumberOfSeededObjects));
-            Assert.That(bookmarks.FirstOrDefault(x=>x.Name == name)?.Description, Is.EqualTo(description));
+            Assert.That(bookmarks.FirstOrDefault(x => x.Name == name)?.Description, Is.EqualTo(description));
+        }
+
+        [Test]
+        public async Task UpsertBookmark_NewBookmarkWithTags_BookmarkAdded()
+        {
+            //Arrange
+            var sut = new BookmarkRepository(DbContext);
+            var tagRepo = new TagRepository(DbContext);
+            const string tagName = "rpg";
+            var newBookmark = new Bookmark("dndbeyond", new Uri("https://www.dndbeyond.com/"))
+            {
+                Description = "Official D&D online toolset",
+                Tags = new List<Tag> { new(tagName), new("d&d") }
+            };
+            const int expectedNumberOfBookmarks = 3;
+            const int expectedNumberOfTotalTags = 4;
+            
+            //Act
+            await sut.UpsertAsync(newBookmark);
+            var bookmarks = await sut.GetAllAsync();
+            var tags = await tagRepo.GetAllAsync();
+            
+            //Assert
+            Assert.That(bookmarks, Has.Count.EqualTo(expectedNumberOfBookmarks));
+            Assert.That(tags, Has.Count.EqualTo(expectedNumberOfTotalTags));
+            Assert.That(tags.FirstOrDefault(x => x.Name == tagName)?.Bookmarks,
+                Has.Count.EqualTo(expectedNumberOfBookmarks));
         }
 
         [Test]

@@ -17,7 +17,7 @@ namespace Favourites.Data.Services
             return await _dbContext.Set<T>().ToListAsync();
         }
 
-        public async Task UpsertAsync(T entity)
+        public virtual async Task UpsertAsync(T entity)
         {
             var set = _dbContext.Set<T>();
             var dbEntity = await set.FindAsync(entity.Name);
