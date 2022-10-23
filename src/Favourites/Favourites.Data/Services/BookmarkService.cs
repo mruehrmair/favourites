@@ -13,7 +13,7 @@ public class BookmarkService : IBookmarkService
         _bookmarkRepository = bookmarkRepository;
         _tagRepository = tagRepository;
     }
-    
+
     public async Task UpsertAsync(Bookmark entity)
     {
         if (entity.Tags != null)
@@ -26,9 +26,10 @@ public class BookmarkService : IBookmarkService
             entity.Tags = updatedTagCollection;
         }
 
-        if (await _bookmarkRepository.GetAsync(entity) != null)
+        var existingEntity = await _bookmarkRepository.GetAsync(entity);
+        if (existingEntity != null)
         {
-            await _bookmarkRepository.UpdateAsync(entity);
+            await _bookmarkRepository.UpdateAsync(existingEntity, entity);
         }
         else
         {
@@ -41,13 +42,13 @@ public class BookmarkService : IBookmarkService
         await _bookmarkRepository.DeleteAsync(entity);
     }
 
-    public async Task<ICollection<Bookmark>> GetAllBookmarksAsync()
+    public async Task<IReadOnlyCollection<Bookmark>> GetAllBookmarksAsync()
     {
-        return await _bookmarkRepository.GetAllAsync();
+        return (IReadOnlyCollection<Bookmark>)await _bookmarkRepository.GetAllAsync();
     }
 
-    public async Task<ICollection<Tag>> GetAllTagsAsync()
+    public async Task<IReadOnlyCollection<Tag>> GetAllTagsAsync()
     {
-        return await _tagRepository.GetAllAsync();
+        return (IReadOnlyCollection<Tag>)await _tagRepository.GetAllAsync();
     }
 }

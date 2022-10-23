@@ -7,8 +7,8 @@ namespace Favourites.Data.Repositories
         public Task<ICollection<T>> GetAllAsync();
 
         public Task<T?> GetAsync(T entity);
-        
-        public Task UpdateAsync(T entity);
+
+        public Task UpdateAsync(T existingEntity, T newEntity);
 
         public Task CreateAsync(T entity);
 

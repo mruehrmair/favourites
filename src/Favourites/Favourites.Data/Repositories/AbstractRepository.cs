@@ -24,31 +24,29 @@ namespace Favourites.Data.Repositories
             return dbEntity ?? null;
         }
         
-        public virtual async Task UpdateAsync(T entity)
+        /// <summary>
+        /// Updating / replacing an existing entity
+        /// </summary>
+        /// <param name="existingEntity">entity currently in db</param>
+        /// <param name="newEntity">entity with properties to update</param>
+        public virtual async Task UpdateAsync(T existingEntity, T newEntity)
         {
-            var set = _dbContext.Set<T>();
-            var dbEntity = await set.FindAsync(entity.Name);
-            entity.ModificationDate = DateTime.UtcNow;
-            if (dbEntity != null)
-            {
-                _dbContext.Entry(dbEntity).State = EntityState.Detached;
-                set.Update(entity);
-                await _dbContext.SaveChangesAsync();
-            }
+            _dbContext.Entry(existingEntity).State = EntityState.Detached;
+            _dbContext.Set<T>().Update(newEntity);
+            newEntity.ModificationDate = DateTime.UtcNow;
+            await _dbContext.SaveChangesAsync();
         }
 
         public virtual async Task CreateAsync(T entity)
         {
-            var set = _dbContext.Set<T>();
+            _dbContext.Set<T>().Add(entity);
             entity.ModificationDate = DateTime.UtcNow;
-            set.Add(entity);
             await _dbContext.SaveChangesAsync();
         }
 
         public virtual async Task DeleteAsync(T entity)
         {
-            var set = _dbContext.Set<T>();
-            var dbEntity = await set.FindAsync(entity.Name);
+            var dbEntity = await GetAsync(entity);
             if (dbEntity != null)
             {
                 _dbContext.Remove(dbEntity);

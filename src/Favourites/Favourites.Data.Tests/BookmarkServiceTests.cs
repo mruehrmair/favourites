@@ -47,7 +47,7 @@ namespace Favourites.Data.Tests
             //Arrange
             const string description = "RPG Randomizer website";
             const string name = "donjon";
-            var sut = new BookmarkService(BookmarkRepository,TagRepository);
+            var sut = new BookmarkService(BookmarkRepository, TagRepository);
             var existingBookmark = new Bookmark(name, new Uri("https://donjon.bin.sh/"))
             {
                 Description = description
@@ -67,7 +67,7 @@ namespace Favourites.Data.Tests
         public async Task UpsertBookmark_NewBookmarkWithTags_BookmarkAdded()
         {
             //Arrange
-            var sut = new BookmarkService(BookmarkRepository,TagRepository);
+            var sut = new BookmarkService(BookmarkRepository, TagRepository);
             const string tagName = "rpg";
             var newBookmark = new Bookmark("dndbeyond", new Uri("https://www.dndbeyond.com/"))
             {
@@ -76,19 +76,19 @@ namespace Favourites.Data.Tests
             };
             const int expectedNumberOfBookmarks = 3;
             const int expectedNumberOfTotalTags = 4;
-            
+
             //Act
             await sut.UpsertAsync(newBookmark);
             var bookmarks = await sut.GetAllBookmarksAsync();
             var tags = await sut.GetAllTagsAsync();
-            
+
             //Assert
             Assert.That(bookmarks, Has.Count.EqualTo(expectedNumberOfBookmarks));
             Assert.That(tags, Has.Count.EqualTo(expectedNumberOfTotalTags));
             Assert.That(tags.FirstOrDefault(x => x.Name == tagName)?.Bookmarks,
                 Has.Count.EqualTo(expectedNumberOfBookmarks));
         }
-        
+
         [Test]
         public async Task DeleteBookmark_SeededBookmark_BookmarkRemoved()
         {
@@ -104,12 +104,12 @@ namespace Favourites.Data.Tests
             //Assert
             Assert.That(bookmarks, Has.Count.EqualTo(expectedNumberOfObjects));
         }
-        
+
         [Test]
         public async Task GetTags_BaseSeeding_ReturnsCorrectNumberOfObjects()
         {
             //Arrange
-            var sut = new BookmarkService(BookmarkRepository,TagRepository);
+            var sut = new BookmarkService(BookmarkRepository, TagRepository);
             const int expectedNumberOfSeededObjects = 3;
 
             //Act
