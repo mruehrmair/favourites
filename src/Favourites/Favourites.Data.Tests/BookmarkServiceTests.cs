@@ -1,5 +1,4 @@
 ﻿using Favourites.Data.Entities;
-using Favourites.Data.Repositories;
 using Favourites.Data.Services;
 
 namespace Favourites.Data.Tests
@@ -89,7 +88,23 @@ namespace Favourites.Data.Tests
             Assert.That(tags.FirstOrDefault(x => x.Name == tagName)?.Bookmarks,
                 Has.Count.EqualTo(expectedNumberOfBookmarks));
         }
+        
+        [Test]
+        public async Task DeleteBookmark_SeededBookmark_BookmarkRemoved()
+        {
+            //Arrange
+            var sut = new BookmarkService(BookmarkRepository, TagRepository);
+            var newBookmark = new Bookmark("donjon", new Uri("https://donjon.bin.sh/"));
+            const int expectedNumberOfObjects = 1;
 
+            //Act
+            await sut.DeleteAsync(newBookmark);
+            var bookmarks = await sut.GetAllBookmarksAsync();
+
+            //Assert
+            Assert.That(bookmarks, Has.Count.EqualTo(expectedNumberOfObjects));
+        }
+        
         [Test]
         public async Task GetTags_BaseSeeding_ReturnsCorrectNumberOfObjects()
         {

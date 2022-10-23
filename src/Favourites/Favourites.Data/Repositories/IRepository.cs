@@ -6,6 +6,12 @@ namespace Favourites.Data.Repositories
     {
         public Task<ICollection<T>> GetAllAsync();
 
-        public Task UpsertAsync(T entity);
+        public Task<T?> GetAsync(T entity);
+        
+        public Task UpdateAsync(T entity);
+
+        public Task CreateAsync(T entity);
+
+        public Task DeleteAsync(T entity);
     }
 }

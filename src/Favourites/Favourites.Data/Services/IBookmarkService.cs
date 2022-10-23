@@ -5,7 +5,9 @@ namespace Favourites.Data.Services;
 public interface IBookmarkService
 {
     Task UpsertAsync(Bookmark entity);
-
+    
+    Task DeleteAsync(Bookmark entity);
+    
     Task<ICollection<Bookmark>> GetAllBookmarksAsync();
     
     Task<ICollection<Tag>> GetAllTagsAsync();

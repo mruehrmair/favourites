@@ -25,7 +25,20 @@ public class BookmarkService : IBookmarkService
                 select existingTag ?? tag);
             entity.Tags = updatedTagCollection;
         }
-        await _bookmarkRepository.UpsertAsync(entity);
+
+        if (await _bookmarkRepository.GetAsync(entity) != null)
+        {
+            await _bookmarkRepository.UpdateAsync(entity);
+        }
+        else
+        {
+            await _bookmarkRepository.CreateAsync(entity);
+        }
+    }
+
+    public async Task DeleteAsync(Bookmark entity)
+    {
+        await _bookmarkRepository.DeleteAsync(entity);
     }
 
     public async Task<ICollection<Bookmark>> GetAllBookmarksAsync()

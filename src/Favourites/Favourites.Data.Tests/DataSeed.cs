@@ -2,7 +2,7 @@
 
 namespace Favourites.Data.Tests
 {
-    internal class DataSeed
+    internal static class DataSeed
     {
         internal static object[] GetBookmarkData()
         {

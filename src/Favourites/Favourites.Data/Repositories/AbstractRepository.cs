@@ -17,23 +17,43 @@ namespace Favourites.Data.Repositories
             return await _dbContext.Set<T>().ToListAsync();
         }
 
-        public virtual async Task UpsertAsync(T entity)
+        public virtual async Task<T?> GetAsync(T entity)
+        {
+            var set = _dbContext.Set<T>();
+            var dbEntity = await set.FindAsync(entity.Name);
+            return dbEntity ?? null;
+        }
+        
+        public virtual async Task UpdateAsync(T entity)
         {
             var set = _dbContext.Set<T>();
             var dbEntity = await set.FindAsync(entity.Name);
             entity.ModificationDate = DateTime.UtcNow;
             if (dbEntity != null)
             {
-                //Update
                 _dbContext.Entry(dbEntity).State = EntityState.Detached;
                 set.Update(entity);
+                await _dbContext.SaveChangesAsync();
             }
-            else
-            {
-                //Insert               
-                set.Add(entity);
-            }
+        }
+
+        public virtual async Task CreateAsync(T entity)
+        {
+            var set = _dbContext.Set<T>();
+            entity.ModificationDate = DateTime.UtcNow;
+            set.Add(entity);
             await _dbContext.SaveChangesAsync();
+        }
+
+        public virtual async Task DeleteAsync(T entity)
+        {
+            var set = _dbContext.Set<T>();
+            var dbEntity = await set.FindAsync(entity.Name);
+            if (dbEntity != null)
+            {
+                _dbContext.Remove(dbEntity);
+                await _dbContext.SaveChangesAsync();
+            }
         }
     }
 }
