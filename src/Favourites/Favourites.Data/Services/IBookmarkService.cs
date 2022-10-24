@@ -8,7 +8,7 @@ public interface IBookmarkService
     
     Task DeleteAsync(Bookmark entity);
     
-    Task<IReadOnlyCollection<Bookmark>> GetAllBookmarksAsync();
+    Task<IReadOnlyCollection<Bookmark>> GetAllBookmarksAsync(string? search = null);
     
     Task<IReadOnlyCollection<Tag>> GetAllTagsAsync();
 }

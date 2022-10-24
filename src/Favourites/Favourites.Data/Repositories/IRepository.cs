@@ -4,7 +4,7 @@ namespace Favourites.Data.Repositories
 {
     public interface IRepository<T> where T : EntityBase
     {
-        public Task<ICollection<T>> GetAllAsync();
+        public Task<ICollection<T>> GetAllAsync(Func<T, bool>? search = null);
 
         public Task<T?> GetAsync(T entity);
 

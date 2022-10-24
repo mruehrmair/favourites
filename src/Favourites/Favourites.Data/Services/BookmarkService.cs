@@ -42,9 +42,14 @@ public class BookmarkService : IBookmarkService
         await _bookmarkRepository.DeleteAsync(entity);
     }
 
-    public async Task<IReadOnlyCollection<Bookmark>> GetAllBookmarksAsync()
+    public async Task<IReadOnlyCollection<Bookmark>> GetAllBookmarksAsync(string? search = null)
     {
-        return (IReadOnlyCollection<Bookmark>)await _bookmarkRepository.GetAllAsync();
+        if (search == null) return (IReadOnlyCollection<Bookmark>)await _bookmarkRepository.GetAllAsync();
+
+        bool SearchDelegate(Bookmark b) => b.Name.Contains(search) || b.WebLink.AbsoluteUri.Contains(search) ||
+                                           b.Description != null && b.Description.Contains(search);
+
+        return (IReadOnlyCollection<Bookmark>)await _bookmarkRepository.GetAllAsync(SearchDelegate);
     }
 
     public async Task<IReadOnlyCollection<Tag>> GetAllTagsAsync()

@@ -24,6 +24,21 @@ namespace Favourites.Data.Tests
             //Assert
             Assert.That(bookmarks, Has.Count.EqualTo(expectedNumberOfSeededObjects));
         }
+        
+        [Test]
+        [TestCase("donjon",1)]
+        [TestCase("bin",2)]
+        public async Task GetBookmarks_SearchTextInBaseSeeding_ReturnsCorrectNumberOfObjects(string searchString, int expectedResults)
+        {
+            //Arrange
+            var sut = new BookmarkService(BookmarkRepository, TagRepository);
+            
+            //Act
+            var bookmarks = await sut.GetAllBookmarksAsync(searchString);
+
+            //Assert
+            Assert.That(bookmarks, Has.Count.EqualTo(expectedResults));
+        }
 
         [Test]
         public async Task UpsertBookmark_NewBookmarkWithoutTags_BookmarkAdded()

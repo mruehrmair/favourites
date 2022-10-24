@@ -12,9 +12,14 @@ namespace Favourites.Data.Repositories
             _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }
 
-        public async Task<ICollection<T>> GetAllAsync()
+        public async Task<ICollection<T>> GetAllAsync(Func<T, bool>? search = null)
         {
-            return await _dbContext.Set<T>().ToListAsync();
+            var set = _dbContext.Set<T>();
+            if (search != null)
+            {
+                return set.Where(search).ToList();
+            }
+            return await set.ToListAsync();
         }
 
         public virtual async Task<T?> GetAsync(T entity)
@@ -23,7 +28,7 @@ namespace Favourites.Data.Repositories
             var dbEntity = await set.FindAsync(entity.Name);
             return dbEntity ?? null;
         }
-        
+
         /// <summary>
         /// Updating / replacing an existing entity
         /// </summary>
