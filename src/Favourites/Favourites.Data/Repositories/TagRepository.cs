@@ -1,12 +1,11 @@
 ﻿using Favourites.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Favourites.Data.Repositories
+namespace Favourites.Data.Repositories;
+
+public class TagRepository : AbstractRepository<Tag>, ITagRepository
 {
-    public class TagRepository : AbstractRepository<Tag>, ITagRepository
+    public TagRepository(DbContext dbContext) : base(dbContext)
     {
-        public TagRepository(DbContext dbContext) : base(dbContext)
-        {
-        }
     }
 }

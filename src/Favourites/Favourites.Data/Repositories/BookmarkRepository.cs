@@ -1,12 +1,11 @@
 ﻿using Favourites.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Favourites.Data.Repositories
+namespace Favourites.Data.Repositories;
+
+public class BookmarkRepository : AbstractRepository<Bookmark>, IBookmarkRepository
 {
-    public class BookmarkRepository : AbstractRepository<Bookmark>, IBookmarkRepository
+    public BookmarkRepository(DbContext dbContext) : base(dbContext)
     {
-        public BookmarkRepository(DbContext dbContext) : base(dbContext)
-        {
-        }
     }
 }

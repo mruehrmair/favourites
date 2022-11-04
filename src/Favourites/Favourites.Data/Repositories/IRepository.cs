@@ -1,17 +1,16 @@
 ﻿using Favourites.Data.Entities;
 
-namespace Favourites.Data.Repositories
+namespace Favourites.Data.Repositories;
+
+public interface IRepository<T> where T : EntityBase
 {
-    public interface IRepository<T> where T : EntityBase
-    {
-        public Task<ICollection<T>> GetAllAsync(Func<T, bool>? search = null);
+    public Task<ICollection<T>> GetAllAsync(Func<T, bool>? search = null);
 
-        public Task<T?> GetAsync(T entity);
+    public Task<T?> GetAsync(T entity);
 
-        public Task UpdateAsync(T existingEntity, T newEntity);
+    public Task UpdateAsync(T existingEntity, T newEntity);
 
-        public Task CreateAsync(T entity);
+    public Task CreateAsync(T entity);
 
-        public Task DeleteAsync(T entity);
-    }
+    public Task DeleteAsync(T entity);
 }
