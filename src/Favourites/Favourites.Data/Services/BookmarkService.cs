@@ -37,6 +37,14 @@ public class BookmarkService : IBookmarkService
         }
     }
 
+    public async Task UpsertAllAsync(IEnumerable<Bookmark> entities)
+    {
+        foreach (var entity in entities)
+        {
+            await UpsertAsync(entity);
+        }
+    }
+
     public async Task DeleteAsync(Bookmark entity)
     {
         await _bookmarkRepository.DeleteAsync(entity);

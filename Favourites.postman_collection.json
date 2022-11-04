@@ -1,0 +1,50 @@
+{
+	"info": {
+		"_postman_id": "33947106-9995-4555-b006-68a80f7a1acd",
+		"name": "Favourites",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GetAllBookmarks",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:{{portNumber}}/api/bookmarks",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "{{portNumber}}",
+					"path": [
+						"api",
+						"bookmarks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetBookmark",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:{{portNumber}}/api/bookmarks/bla",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "{{portNumber}}",
+					"path": [
+						"api",
+						"bookmarks",
+						"bla"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
