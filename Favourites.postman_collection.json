@@ -26,6 +26,26 @@
 			"response": []
 		},
 		{
+			"name": "GetAllTags",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:{{portNumber}}/api/tags",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "{{portNumber}}",
+					"path": [
+						"api",
+						"tags"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "GetBookmark",
 			"request": {
 				"method": "GET",
