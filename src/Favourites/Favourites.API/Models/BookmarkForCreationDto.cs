@@ -2,12 +2,17 @@
 
 namespace Favourites.API.Models;
 
-public record BookmarkDto(string WebLink, string Name)
+public record BookmarkForCreationDto
 {
-    public DateTime? ModificationDate { get; init; } 
-    
+    [Required]
+    [Url]
+    public string WebLink { get; init; } = null!;
+
+    [Required]
+    public string Name { get; init; } = null!;
+
+    [MaxLength(255)]
     public string? Description { get; init; } = null;
 
     public string[] Tags { get; init; } = Array.Empty<string>();
-    
 }

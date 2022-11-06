@@ -29,7 +29,13 @@
 			"name": "GetAllTags",
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/xml",
+						"type": "default"
+					}
+				],
 				"url": {
 					"raw": "https://localhost:{{portNumber}}/api/tags",
 					"protocol": "https",
@@ -61,6 +67,66 @@
 						"api",
 						"bookmarks",
 						"bla"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateBookmark (description too long)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Weblink\": \"https://www.heise.de\",\r\n    \"Name\": \"Heise\",\r\n    \"Description\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eros est, tincidunt eget sem eget, tincidunt vehicula risus. Donec imperdiet lectus eget velit bibendum, non volutpat lectus finibus. Aliquam finibus leo mollis sollicitudin pulvinar. In vel nunc non velit interdum tempor eu amet.\",\r\n    \"Tags\": []\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:{{portNumber}}/api/bookmarks/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "{{portNumber}}",
+					"path": [
+						"api",
+						"bookmarks",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateBookmark (correct)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Weblink\": \"https://www.heise.de\",\r\n    \"Name\": \"Heise\",\r\n    \"Description\": null,\r\n    \"Tags\": []\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:{{portNumber}}/api/bookmarks/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "{{portNumber}}",
+					"path": [
+						"api",
+						"bookmarks",
+						""
 					]
 				}
 			},
