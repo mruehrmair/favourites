@@ -57,4 +57,18 @@ public class BookmarkController : ControllerBase
         dataBookmark.WebLink = bookmark.WebLink;
         return NoContent();
     }
+
+    [HttpDelete("{name}")]
+    public ActionResult<BookmarkDto> DeleteBookmark(string name)
+    {
+        if (_bookmarks.All(x => x.Name != name))
+        {
+            return NotFound();
+        }
+
+        var dataBookmark = _bookmarks.Single(x => x.Name == name);
+        _bookmarks.Remove(dataBookmark);
+
+        return NoContent();
+    }
 }

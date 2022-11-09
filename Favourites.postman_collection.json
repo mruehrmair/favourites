@@ -161,6 +161,27 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "DeleteBookmark",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:{{portNumber}}/api/bookmarks/google",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "{{portNumber}}",
+					"path": [
+						"api",
+						"bookmarks",
+						"google"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
