@@ -9,8 +9,8 @@ public class BookmarkController : ControllerBase
 {
     private readonly IList<BookmarkDto> _bookmarks = new List<BookmarkDto>
     {
-        new("https://google.com", "google") { Tags = new[] { "it" } },
-        new("https://dndbeyond.com", "dndbeyond")
+        new() { WebLink = "https://google.com", Name = "google", Tags = new[] { "it" } },
+        new() { WebLink = "https://dndbeyond.com", Name = "dndbeyond" }
     };
 
     [HttpGet("")]
@@ -34,7 +34,7 @@ public class BookmarkController : ControllerBase
     [HttpPost("")]
     public ActionResult<BookmarkDto> CreateBookmark(BookmarkForCreationDto bookmark)
     {
-        var dataBookmark = new BookmarkDto(bookmark.WebLink, bookmark.Name);
+        var dataBookmark = new BookmarkDto { WebLink = bookmark.WebLink, Name = bookmark.Name };
 
         _bookmarks.Add(dataBookmark);
 
@@ -42,5 +42,19 @@ public class BookmarkController : ControllerBase
         {
             bookmark.Name
         }, dataBookmark);
+    }
+
+    [HttpPut("")]
+    public ActionResult<BookmarkDto> UpdateBookmark(BookmarkForUpdateDto bookmark)
+    {
+        if (_bookmarks.All(x => x.Name != bookmark.Name))
+        {
+            return NotFound();
+        }
+
+        var dataBookmark = _bookmarks.Single(x => x.Name == bookmark.Name);
+        dataBookmark.Description = bookmark.Description;
+        dataBookmark.WebLink = bookmark.WebLink;
+        return NoContent();
     }
 }
