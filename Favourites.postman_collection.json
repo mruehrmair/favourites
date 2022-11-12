@@ -133,6 +133,36 @@
 			"response": []
 		},
 		{
+			"name": "CreateBookmark (existing)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Weblink\": \"https://www.heise.de\",\r\n    \"Name\": \"Heise\",\r\n    \"Description\": null,\r\n    \"Tags\": []\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:{{portNumber}}/api/bookmarks/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "{{portNumber}}",
+					"path": [
+						"api",
+						"bookmarks",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "UpdateBookmark",
 			"request": {
 				"method": "PUT",

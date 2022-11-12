@@ -7,6 +7,13 @@ namespace Favourites.API.Controllers;
 [Route("api/bookmarks")]
 public class BookmarkController : ControllerBase
 {
+    private readonly ILogger<BookmarkController> _logger;
+
+    public BookmarkController(ILogger<BookmarkController> logger)
+    {
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+    }
+    
     private readonly IList<BookmarkDto> _bookmarks = new List<BookmarkDto>
     {
         new() { WebLink = "https://google.com", Name = "google", Tags = new[] { "it" } },
@@ -34,14 +41,29 @@ public class BookmarkController : ControllerBase
     [HttpPost("")]
     public ActionResult<BookmarkDto> CreateBookmark(BookmarkForCreationDto bookmark)
     {
-        var dataBookmark = new BookmarkDto { WebLink = bookmark.WebLink, Name = bookmark.Name };
-
-        _bookmarks.Add(dataBookmark);
-
-        return CreatedAtRoute("GetBookmark", new
+        if (_bookmarks.Any(x => x.Name == bookmark.Name))
         {
-            bookmark.Name
-        }, dataBookmark);
+            var existingBookmark = _bookmarks.First(x => x.Name == bookmark.Name);
+            _logger.LogInformation("Bookmark \"{BookmarkName}\" already exists", bookmark.Name);
+            return Conflict(existingBookmark);
+        }
+
+        try
+        {
+            var dataBookmark = new BookmarkDto { WebLink = bookmark.WebLink, Name = bookmark.Name };
+
+            _bookmarks.Add(dataBookmark);
+
+            return CreatedAtRoute("GetBookmark", new
+            {
+                bookmark.Name
+            }, dataBookmark);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogCritical("An error happened while creating a bookmark {Bookmark} {Exception}", ex, bookmark);
+            return StatusCode(500, "A problem happened while handling your request");
+        }
     }
 
     [HttpPut("")]
