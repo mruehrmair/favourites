@@ -11,9 +11,12 @@ namespace Favourites.Data.DbContexts
         // ReSharper disable once UnusedMember.Global
         public DbSet<Tag> Tags { get; set; } = null!;
 
+        public BookmarkDbContext()
+        {
+        }
+        
         public BookmarkDbContext(DbContextOptions<BookmarkDbContext> options) : base(options)
         {
-            //Connection String Sqlite: "Data Source=Bookmarks.db"
         }
     }
 }

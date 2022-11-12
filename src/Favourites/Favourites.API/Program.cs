@@ -1,3 +1,5 @@
+using Favourites.Data.DbContexts;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 
 Log.Logger = new LoggerConfiguration()
@@ -11,6 +13,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseSerilog();
 
 // Add services to the container.
+
+builder.Services.AddDbContext<BookmarkDbContext>(
+    options => options.UseSqlite(builder.Configuration["ConnectionStrings:BookmarkDbConnectionString"]));
 
 builder.Services.AddControllers(
     options => { options.ReturnHttpNotAcceptable = true; });
