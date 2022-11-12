@@ -1,4 +1,6 @@
 using Favourites.Data.DbContexts;
+using Favourites.Data.Repositories;
+using Favourites.Data.Services;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -16,6 +18,9 @@ builder.Host.UseSerilog();
 
 builder.Services.AddDbContext<BookmarkDbContext>(
     options => options.UseSqlite(builder.Configuration["ConnectionStrings:BookmarkDbConnectionString"]));
+builder.Services.AddScoped<IBookmarkRepository, BookmarkRepository>();
+builder.Services.AddScoped<ITagRepository, TagRepository>();
+builder.Services.AddScoped<IBookmarkService, BookmarkService>();
 
 builder.Services.AddControllers(
     options => { options.ReturnHttpNotAcceptable = true; });

@@ -11,9 +11,9 @@ TODO: Guide users through getting your code up and running on their own system. 
 # Database
 ## Provider
 Microsoft.EntityFrameworkCore.Sqlite
-## Creating migrations
-dotnet ef migrations add BookmarkDbInitial -s ..\Favourites.API\Favourites.API.csproj
-
+## Creating migrations from CLI
+* dotnet ef migrations add BookmarkDbInitial -s ..\Favourites.API\Favourites.API.csproj
+* dotnet ef database update -s ..\Favourites.API\Favourites.API.csproj
 
 # Build and Test
 TODO: Describe and show how to build your code and run the tests. 

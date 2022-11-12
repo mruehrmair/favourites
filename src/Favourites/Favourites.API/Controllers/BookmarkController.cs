@@ -1,4 +1,6 @@
 ﻿using Favourites.API.Models;
+using Favourites.Data.Entities;
+using Favourites.Data.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Favourites.API.Controllers;
@@ -7,13 +9,15 @@ namespace Favourites.API.Controllers;
 [Route("api/bookmarks")]
 public class BookmarkController : ControllerBase
 {
+    private readonly IBookmarkService _bookmarkService;
     private readonly ILogger<BookmarkController> _logger;
 
-    public BookmarkController(ILogger<BookmarkController> logger)
+    public BookmarkController(IBookmarkService bookmarkService, ILogger<BookmarkController> logger)
     {
+        _bookmarkService = bookmarkService ?? throw new ArgumentNullException(nameof(bookmarkService));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
-    
+
     private readonly IList<BookmarkDto> _bookmarks = new List<BookmarkDto>
     {
         new() { WebLink = "https://google.com", Name = "google", Tags = new[] { "it" } },
@@ -21,9 +25,11 @@ public class BookmarkController : ControllerBase
     };
 
     [HttpGet("")]
-    public ActionResult<IEnumerable<BookmarkDto>> GetBookmarks()
+    public async Task<ActionResult<IEnumerable<BookmarkDto>>> GetBookmarks()
     {
-        return Ok(_bookmarks);
+        var bookmarkEntities = await _bookmarkService.GetAllBookmarksAsync();
+        var result = bookmarkEntities.Select(bookmark => new BookmarkDto { Name = bookmark.Name, Description = bookmark.Description, WebLink = bookmark.WebLink.AbsoluteUri }).ToList();
+        return Ok(result);
     }
 
     [HttpGet("{name}", Name = "GetBookmark")]
@@ -39,7 +45,7 @@ public class BookmarkController : ControllerBase
     }
 
     [HttpPost("")]
-    public ActionResult<BookmarkDto> CreateBookmark(BookmarkForCreationDto bookmark)
+    public async Task<ActionResult<BookmarkDto>> CreateBookmark(BookmarkForCreationDto bookmark)
     {
         if (_bookmarks.Any(x => x.Name == bookmark.Name))
         {
@@ -50,9 +56,9 @@ public class BookmarkController : ControllerBase
 
         try
         {
-            var dataBookmark = new BookmarkDto { WebLink = bookmark.WebLink, Name = bookmark.Name };
+            var dataBookmark = new Bookmark(bookmark.Name, new Uri(bookmark.WebLink)) { Description = bookmark.Description};
 
-            _bookmarks.Add(dataBookmark);
+            await _bookmarkService.UpsertAsync(dataBookmark);
 
             return CreatedAtRoute("GetBookmark", new
             {

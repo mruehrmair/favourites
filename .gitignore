@@ -36,6 +36,9 @@ msbuild.wrn
 #Logs
 logs/
 
+#Database file
+*.db
+
 # Visual Studio 2015
 .vs/
 
