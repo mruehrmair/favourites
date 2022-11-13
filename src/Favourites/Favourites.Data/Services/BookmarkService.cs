@@ -8,8 +8,7 @@ public class BookmarkService : IBookmarkService
     private readonly IBookmarkRepository _bookmarkRepository;
     private readonly ITagRepository _tagRepository;
 
-    private readonly string _tags = $"{nameof(Bookmark.Tags)}";
-
+    private const string Tags = $"{nameof(Bookmark.Tags)}";
 
     public BookmarkService(IBookmarkRepository bookmarkRepository, ITagRepository tagRepository)
     {
@@ -55,12 +54,12 @@ public class BookmarkService : IBookmarkService
 
     public async Task<IReadOnlyCollection<Bookmark>> GetAllBookmarksAsync(string? search = null)
     {
-        if (search == null) return (IReadOnlyCollection<Bookmark>)await _bookmarkRepository.GetAllAsync(null, _tags);
+        if (search == null) return (IReadOnlyCollection<Bookmark>)await _bookmarkRepository.GetAllAsync(null, Tags);
 
         bool SearchDelegate(Bookmark b) => b.Name.Contains(search) || b.WebLink.AbsoluteUri.Contains(search) ||
                                            b.Description != null && b.Description.Contains(search);
 
-        return (IReadOnlyCollection<Bookmark>)await _bookmarkRepository.GetAllAsync(SearchDelegate, _tags);
+        return (IReadOnlyCollection<Bookmark>)await _bookmarkRepository.GetAllAsync(SearchDelegate, Tags);
     }
 
     public async Task<IReadOnlyCollection<Tag>> GetAllTagsAsync()
