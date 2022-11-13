@@ -1,4 +1,5 @@
 ﻿using Favourites.Data.Entities;
+using Favourites.Data.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Favourites.Data.Repositories;
@@ -12,14 +13,20 @@ public abstract class AbstractRepository<T> : IRepository<T> where T : EntityBas
         _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
     }
 
-    public async Task<ICollection<T>> GetAllAsync(Func<T, bool>? search = null)
+    public async Task<ICollection<T>> GetAllAsync(Func<T, bool>? search = null, params string[] includes)
     {
         var set = _dbContext.Set<T>();
+        var query = set.AsQueryable();
+        if (includes.Length > 0)
+        {
+            query = set.IncludeMultiple(includes);
+        }
+        
         if (search != null)
         {
-            return set.Where(search).ToList();
+            return query.AsEnumerable().Where(search).ToList();
         }
-        return await set.ToListAsync();
+        return await query.ToListAsync();
     }
 
     public virtual async Task<T?> GetAsync(T entity)

@@ -103,7 +103,7 @@
 			"response": []
 		},
 		{
-			"name": "CreateBookmark (correct)",
+			"name": "CreateBookmark (existing)",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -133,13 +133,13 @@
 			"response": []
 		},
 		{
-			"name": "CreateBookmark (existing)",
+			"name": "CreateBookmark (new)",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"Weblink\": \"https://www.heise.de\",\r\n    \"Name\": \"Heise\",\r\n    \"Description\": null,\r\n    \"Tags\": []\r\n}",
+					"raw": "{\r\n    \"Weblink\": \"https://www.dndbeyond.com\",\r\n    \"Name\": \"dndbeyond\",\r\n    \"Description\": \"D&D Beyond\",\r\n    \"Tags\": [\"dnd\", \"rpg\"]\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -194,6 +194,27 @@
 		},
 		{
 			"name": "DeleteBookmark",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:{{portNumber}}/api/bookmarks/google",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "{{portNumber}}",
+					"path": [
+						"api",
+						"bookmarks",
+						"google"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteTag",
 			"request": {
 				"method": "DELETE",
 				"header": [],

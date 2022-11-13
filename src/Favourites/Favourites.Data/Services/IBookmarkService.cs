@@ -13,4 +13,6 @@ public interface IBookmarkService
     Task<IReadOnlyCollection<Bookmark>> GetAllBookmarksAsync(string? search = null);
     
     Task<IReadOnlyCollection<Tag>> GetAllTagsAsync();
+
+    Task DeleteTagAsync(Tag entity);
 }

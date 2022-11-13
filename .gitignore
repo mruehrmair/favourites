@@ -38,6 +38,8 @@ logs/
 
 #Database file
 *.db
+*.db-shm
+*.db-wal
 
 # Visual Studio 2015
 .vs/

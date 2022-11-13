@@ -8,6 +8,9 @@ public class BookmarkService : IBookmarkService
     private readonly IBookmarkRepository _bookmarkRepository;
     private readonly ITagRepository _tagRepository;
 
+    private readonly string _tags = $"{nameof(Bookmark.Tags)}";
+
+
     public BookmarkService(IBookmarkRepository bookmarkRepository, ITagRepository tagRepository)
     {
         _bookmarkRepository = bookmarkRepository;
@@ -52,16 +55,21 @@ public class BookmarkService : IBookmarkService
 
     public async Task<IReadOnlyCollection<Bookmark>> GetAllBookmarksAsync(string? search = null)
     {
-        if (search == null) return (IReadOnlyCollection<Bookmark>)await _bookmarkRepository.GetAllAsync();
+        if (search == null) return (IReadOnlyCollection<Bookmark>)await _bookmarkRepository.GetAllAsync(null, _tags);
 
         bool SearchDelegate(Bookmark b) => b.Name.Contains(search) || b.WebLink.AbsoluteUri.Contains(search) ||
                                            b.Description != null && b.Description.Contains(search);
 
-        return (IReadOnlyCollection<Bookmark>)await _bookmarkRepository.GetAllAsync(SearchDelegate);
+        return (IReadOnlyCollection<Bookmark>)await _bookmarkRepository.GetAllAsync(SearchDelegate, _tags);
     }
 
     public async Task<IReadOnlyCollection<Tag>> GetAllTagsAsync()
     {
         return (IReadOnlyCollection<Tag>)await _tagRepository.GetAllAsync();
+    }
+
+    public async Task DeleteTagAsync(Tag entity)
+    {
+        await _tagRepository.DeleteAsync(entity);
     }
 }

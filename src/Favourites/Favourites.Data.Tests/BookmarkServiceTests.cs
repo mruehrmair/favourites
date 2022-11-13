@@ -17,12 +17,14 @@ namespace Favourites.Data.Tests
             //Arrange
             var sut = new BookmarkService(BookmarkRepository, TagRepository);
             const int expectedNumberOfSeededObjects = 2;
+            const int expectedNumberOfTags = 3;
 
             //Act
             var bookmarks = await sut.GetAllBookmarksAsync();
 
             //Assert
             Assert.That(bookmarks, Has.Count.EqualTo(expectedNumberOfSeededObjects));
+            Assert.That(new HashSet<Tag>(bookmarks.SelectMany(x=>x.Tags ?? new List<Tag>()).ToList()), Has.Count.EqualTo(expectedNumberOfTags));
         }
         
         [Test]

@@ -1,4 +1,5 @@
-﻿using Favourites.API.Models;
+﻿using AutoMapper;
+using Favourites.API.Models;
 using Favourites.Data.Entities;
 using Favourites.Data.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -10,11 +11,13 @@ namespace Favourites.API.Controllers;
 public class BookmarkController : ControllerBase
 {
     private readonly IBookmarkService _bookmarkService;
+    private readonly IMapper _mapper;
     private readonly ILogger<BookmarkController> _logger;
 
-    public BookmarkController(IBookmarkService bookmarkService, ILogger<BookmarkController> logger)
+    public BookmarkController(IBookmarkService bookmarkService, IMapper mapper, ILogger<BookmarkController> logger)
     {
         _bookmarkService = bookmarkService ?? throw new ArgumentNullException(nameof(bookmarkService));
+        _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
@@ -28,13 +31,14 @@ public class BookmarkController : ControllerBase
     public async Task<ActionResult<IEnumerable<BookmarkDto>>> GetBookmarks()
     {
         var bookmarkEntities = await _bookmarkService.GetAllBookmarksAsync();
-        var result = bookmarkEntities.Select(bookmark => new BookmarkDto { Name = bookmark.Name, Description = bookmark.Description, WebLink = bookmark.WebLink.AbsoluteUri }).ToList();
+        var result = _mapper.Map<IEnumerable<BookmarkDto>>(bookmarkEntities);
         return Ok(result);
     }
 
     [HttpGet("{name}", Name = "GetBookmark")]
     public ActionResult<BookmarkDto> GetBookmark(string name)
     {
+        //TODO still needs to be changed to use data service
         var bookmark = _bookmarks.FirstOrDefault(x => x.Name.Equals(name));
         if (bookmark == null)
         {
@@ -47,7 +51,8 @@ public class BookmarkController : ControllerBase
     [HttpPost("")]
     public async Task<ActionResult<BookmarkDto>> CreateBookmark(BookmarkForCreationDto bookmark)
     {
-        if (_bookmarks.Any(x => x.Name == bookmark.Name))
+        var bookmarkEntities = await _bookmarkService.GetAllBookmarksAsync();
+        if (bookmarkEntities.Any(x => x.Name == bookmark.Name))
         {
             var existingBookmark = _bookmarks.First(x => x.Name == bookmark.Name);
             _logger.LogInformation("Bookmark \"{BookmarkName}\" already exists", bookmark.Name);
@@ -56,14 +61,12 @@ public class BookmarkController : ControllerBase
 
         try
         {
-            var dataBookmark = new Bookmark(bookmark.Name, new Uri(bookmark.WebLink)) { Description = bookmark.Description};
-
-            await _bookmarkService.UpsertAsync(dataBookmark);
-
+            var bookmarkEntity = _mapper.Map<Bookmark>(bookmark);
+            await _bookmarkService.UpsertAsync(bookmarkEntity);
             return CreatedAtRoute("GetBookmark", new
             {
                 bookmark.Name
-            }, dataBookmark);
+            }, _mapper.Map<BookmarkDto>(bookmarkEntity));
         }
         catch (Exception ex)
         {
@@ -75,6 +78,7 @@ public class BookmarkController : ControllerBase
     [HttpPut("")]
     public ActionResult<BookmarkDto> UpdateBookmark(BookmarkForUpdateDto bookmark)
     {
+        //TODO still needs to be changed to use data service
         if (_bookmarks.All(x => x.Name != bookmark.Name))
         {
             return NotFound();
@@ -87,15 +91,25 @@ public class BookmarkController : ControllerBase
     }
 
     [HttpDelete("{name}")]
-    public ActionResult<BookmarkDto> DeleteBookmark(string name)
+    public async Task<ActionResult<BookmarkDto>> DeleteBookmark(string name)
     {
-        if (_bookmarks.All(x => x.Name != name))
+        var bookmarkEntities = await _bookmarkService.GetAllBookmarksAsync();
+        if (bookmarkEntities.All(x => x.Name != name))
         {
             return NotFound();
         }
 
-        var dataBookmark = _bookmarks.Single(x => x.Name == name);
-        _bookmarks.Remove(dataBookmark);
+        try
+        {
+            var dataBookmark = bookmarkEntities.Single(x => x.Name == name);
+            await _bookmarkService.DeleteAsync(dataBookmark);
+            _logger.LogInformation("Bookmark {Name} was deleted", name);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogCritical("An error happened while deleting a bookmark {Bookmark} {Exception}", ex, name);
+            return StatusCode(500, "A problem happened while handling your request");
+        }
 
         return NoContent();
     }

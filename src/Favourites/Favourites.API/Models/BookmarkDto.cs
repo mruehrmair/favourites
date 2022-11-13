@@ -2,9 +2,9 @@
 
 namespace Favourites.API.Models;
 
-public record BookmarkDto()
+public record BookmarkDto
 {
-    public DateTime? ModificationDate { get; } 
+    public DateTime? ModificationDate { get; set; } 
     
     [Required]
     [Url]
