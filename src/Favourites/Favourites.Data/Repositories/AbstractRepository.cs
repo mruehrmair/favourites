@@ -13,7 +13,7 @@ public abstract class AbstractRepository<T> : IRepository<T> where T : EntityBas
         _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
     }
 
-    public async Task<ICollection<T>> GetAllAsync(Func<T, bool>? search = null, params string[] includes)
+    public async Task<ICollection<T>> GetAllAsync(Func<T, bool>? search = null, bool isNoTracking = false, params string[] includes)
     {
         var set = _dbContext.Set<T>();
         var query = set.AsQueryable();
@@ -21,7 +21,11 @@ public abstract class AbstractRepository<T> : IRepository<T> where T : EntityBas
         {
             query = set.IncludeMultiple(includes);
         }
-        
+
+        if (isNoTracking)
+        {
+            query = query.AsNoTracking();
+        }
         if (search != null)
         {
             return query.AsEnumerable().Where(search).ToList();

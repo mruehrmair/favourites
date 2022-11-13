@@ -9,6 +9,7 @@ public class BookmarkService : IBookmarkService
     private readonly ITagRepository _tagRepository;
 
     private const string Tags = $"{nameof(Bookmark.Tags)}";
+    private const string Bookmarks = $"{nameof(Tag.Bookmarks)}";
 
     public BookmarkService(IBookmarkRepository bookmarkRepository, ITagRepository tagRepository)
     {
@@ -20,7 +21,7 @@ public class BookmarkService : IBookmarkService
     {
         if (entity.Tags != null)
         {
-            var allTags = await _tagRepository.GetAllAsync();
+            var allTags = await _tagRepository.GetAllAsync(null,false,Bookmarks);
             var updatedTagCollection = new List<Tag>();
             updatedTagCollection.AddRange(from tag in entity.Tags
                 let existingTag = allTags.FirstOrDefault(x => x.Name == tag.Name)
@@ -54,12 +55,12 @@ public class BookmarkService : IBookmarkService
 
     public async Task<IReadOnlyCollection<Bookmark>> GetAllBookmarksAsync(string? search = null)
     {
-        if (search == null) return (IReadOnlyCollection<Bookmark>)await _bookmarkRepository.GetAllAsync(null, Tags);
+        if (search == null) return (IReadOnlyCollection<Bookmark>)await _bookmarkRepository.GetAllAsync(null,true, Tags);
 
         bool SearchDelegate(Bookmark b) => b.Name.Contains(search) || b.WebLink.AbsoluteUri.Contains(search) ||
                                            b.Description != null && b.Description.Contains(search);
 
-        return (IReadOnlyCollection<Bookmark>)await _bookmarkRepository.GetAllAsync(SearchDelegate, Tags);
+        return (IReadOnlyCollection<Bookmark>)await _bookmarkRepository.GetAllAsync(SearchDelegate, true,Tags);
     }
 
     public async Task<IReadOnlyCollection<Tag>> GetAllTagsAsync()
