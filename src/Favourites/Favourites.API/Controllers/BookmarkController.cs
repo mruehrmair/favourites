@@ -36,21 +36,21 @@ public class BookmarkController : ControllerBase
     }
 
     [HttpGet("{name}", Name = "GetBookmark")]
-    public ActionResult<BookmarkDto> GetBookmark(string name)
+    public async Task<ActionResult<BookmarkDto>> GetBookmark(string name)
     {
-        //TODO still needs to be changed to use data service
-        var bookmark = _bookmarks.FirstOrDefault(x => x.Name.Equals(name));
+        var bookmark = (await _bookmarkService.GetAllBookmarksAsync()).FirstOrDefault(x => x.Name.Equals(name));
         if (bookmark == null)
         {
             return NotFound();
         }
-
+        var result = _mapper.Map<BookmarkDto>(bookmark);
         return Ok(bookmark);
     }
 
     [HttpPost("")]
     public async Task<ActionResult<BookmarkDto>> CreateBookmark(BookmarkForCreationDto bookmark)
     {
+        //TODO bookmark name should be small letters
         var bookmarkEntities = await _bookmarkService.GetAllBookmarksAsync();
         if (bookmarkEntities.Any(x => x.Name == bookmark.Name))
         {
