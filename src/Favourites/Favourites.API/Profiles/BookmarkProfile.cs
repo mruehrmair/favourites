@@ -15,5 +15,8 @@ public class BookmarkProfile : Profile
         CreateMap<BookmarkForCreationDto, Bookmark>()
             .ForMember(dest => dest.Tags,
                 opt => opt.MapFrom(src => src.Tags.Select(s => new Tag(s)).ToList()));
+        CreateMap<BookmarkForUpdateDto, Bookmark>()
+            .ForMember(dest => dest.Tags,
+                opt => opt.MapFrom(src => src.Tags.Select(s => new Tag(s)).ToList()));
     }
 }
