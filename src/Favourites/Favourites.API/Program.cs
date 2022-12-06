@@ -2,6 +2,7 @@ using Favourites.Data.DbContexts;
 using Favourites.Data.Repositories;
 using Favourites.Data.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using Serilog;
 
 Log.Logger = new LoggerConfiguration()
@@ -44,5 +45,11 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<BookmarkDbContext>();
+    db.Database.Migrate();
+}
 
 app.Run();

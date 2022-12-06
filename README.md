@@ -14,7 +14,11 @@ Microsoft.EntityFrameworkCore.Sqlite
 ## Creating migrations from CLI
 * dotnet ef migrations add BookmarkDbInitial -s ..\Favourites.API\Favourites.API.csproj
 * dotnet ef database update -s ..\Favourites.API\Favourites.API.csproj
-
+# Docker
+## Build image
+docker build . -t favouritesapi:0.1
+## Run 
+docker run -p 7213:80 favouritesapi:0.1
 # Build and Test
 TODO: Describe and show how to build your code and run the tests. 
 

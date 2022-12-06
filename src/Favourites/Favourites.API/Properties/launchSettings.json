@@ -9,6 +9,14 @@
       "dotnetRunMessages": true,
       "applicationUrl": "https://localhost:7213;http://localhost:5208"
     },
+    "Favourites.API-Staging": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Staging"
+      },
+      "dotnetRunMessages": true,
+      "applicationUrl": "https://localhost:7213;http://localhost:5208"
+    },
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
@@ -20,6 +28,9 @@
     "Docker": {
       "commandName": "Docker",
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/swagger",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
       "publishAllPorts": true,
       "useSSL": true
     }
