@@ -44,11 +44,11 @@ public class BookmarkController : ControllerBase
     [HttpPost("")]
     public async Task<ActionResult<BookmarkDto>> CreateBookmark(BookmarkForCreationDto bookmark)
     {
-        //TODO bookmark name should be small letters
         var bookmarkEntities = await _bookmarkService.GetAllBookmarksAsync();
-        if (bookmarkEntities.Any(x => x.Name == bookmark.Name))
+        var bookmarkName = bookmark.Name.ToLower();
+        if (bookmarkEntities.Any(x => x.Name == bookmarkName))
         {
-            var existingBookmark = bookmarkEntities.First(x => x.Name == bookmark.Name);
+            var existingBookmark = bookmarkEntities.First(x => x.Name == bookmarkName);
             _logger.LogInformation("Bookmark \"{BookmarkName}\" already exists", bookmark.Name);
             return Conflict(existingBookmark);
         }
@@ -67,6 +67,12 @@ public class BookmarkController : ControllerBase
             _logger.LogCritical("An error happened while creating a bookmark {Bookmark} {Exception}", ex, bookmark);
             return StatusCode(500, "A problem happened while handling your request");
         }
+    }
+
+    [HttpPost("")]
+    public async Task<ActionResult<BookmarkDto>> CreateBookmarks(IEnumerable<BookmarkForCreationDto> bookmarks)
+    {
+        throw new NotImplementedException();
     }
 
     [HttpPut("")]

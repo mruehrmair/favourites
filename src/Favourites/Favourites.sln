@@ -3,15 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32922.545
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Favourites.Data", "Favourites.Data\Favourites.Data.csproj", "{7E9B079A-AFDD-4A5F-B8E1-C14CDFE5F2FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Favourites.Data", "Favourites.Data\Favourites.Data.csproj", "{7E9B079A-AFDD-4A5F-B8E1-C14CDFE5F2FE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{1B584EDC-B683-4FE6-9A04-DDA38E02A567}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{BA13D213-E5AD-45EF-AB4D-9ED4AFF32581}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Favourites.Data.Tests", "Favourites.Data.Tests\Favourites.Data.Tests.csproj", "{EADA70B2-F436-44BB-8A93-C9295B31946A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Favourites.Data.Tests", "Favourites.Data.Tests\Favourites.Data.Tests.csproj", "{EADA70B2-F436-44BB-8A93-C9295B31946A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Favourites.API", "Favourites.API\Favourites.API.csproj", "{8A62ACA5-9ACE-4F26-81F7-0E1B336F26EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Favourites.API", "Favourites.API\Favourites.API.csproj", "{8A62ACA5-9ACE-4F26-81F7-0E1B336F26EB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Favourites.API.Tests", "Favourites.API.Tests\Favourites.API.Tests.csproj", "{60213A98-8E83-4389-B3E1-85B169612336}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +33,10 @@ Global
 		{8A62ACA5-9ACE-4F26-81F7-0E1B336F26EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8A62ACA5-9ACE-4F26-81F7-0E1B336F26EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8A62ACA5-9ACE-4F26-81F7-0E1B336F26EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60213A98-8E83-4389-B3E1-85B169612336}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60213A98-8E83-4389-B3E1-85B169612336}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60213A98-8E83-4389-B3E1-85B169612336}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60213A98-8E83-4389-B3E1-85B169612336}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -39,6 +45,7 @@ Global
 		{7E9B079A-AFDD-4A5F-B8E1-C14CDFE5F2FE} = {BA13D213-E5AD-45EF-AB4D-9ED4AFF32581}
 		{EADA70B2-F436-44BB-8A93-C9295B31946A} = {1B584EDC-B683-4FE6-9A04-DDA38E02A567}
 		{8A62ACA5-9ACE-4F26-81F7-0E1B336F26EB} = {BA13D213-E5AD-45EF-AB4D-9ED4AFF32581}
+		{60213A98-8E83-4389-B3E1-85B169612336} = {1B584EDC-B683-4FE6-9A04-DDA38E02A567}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {66C88179-DD81-4F16-81D5-408E3A3C6384}
