@@ -20,7 +20,7 @@ public class BookmarkController : ControllerBase
         _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
-      
+
     [HttpGet("")]
     public async Task<ActionResult<IEnumerable<BookmarkDto>>> GetBookmarks()
     {
@@ -67,12 +67,6 @@ public class BookmarkController : ControllerBase
             _logger.LogCritical("An error happened while creating a bookmark {Bookmark} {Exception}", ex, bookmark);
             return StatusCode(500, "A problem happened while handling your request");
         }
-    }
-
-    [HttpPost("")]
-    public async Task<ActionResult<BookmarkDto>> CreateBookmarks(IEnumerable<BookmarkForCreationDto> bookmarks)
-    {
-        throw new NotImplementedException();
     }
 
     [HttpPut("")]

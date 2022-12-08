@@ -22,7 +22,7 @@ namespace Favourites.API.Tests.Controller
 
             var bookmarkService = Substitute.For<Data.Services.IBookmarkService>();
             var bookmarks = new List<Bookmark> { new Bookmark("dndbeyond", new Uri("https://dndbeyond.com")) };
-            bookmarkService.GetAllBookmarksAsync().Returns( bookmarks );
+            bookmarkService.GetAllBookmarksAsync().Returns(bookmarks);
             var logger = Substitute.For<ILogger<BookmarkController>>();
             Sut = new BookmarkController(bookmarkService, mapper, logger);
         }
@@ -35,11 +35,14 @@ namespace Favourites.API.Tests.Controller
 
             //Assert
             var okObjectResult = result.Result as OkObjectResult;
-            Assert.IsNotNull(okObjectResult);
+            Assert.That(okObjectResult, Is.Not.Null);
             var models = okObjectResult.Value as IEnumerable<BookmarkDto>;
-            Assert.IsNotNull(models);
-            Assert.That(models.FirstOrDefault()?.Name, Is.EqualTo("dndbeyond"));
-            Assert.That(models.Count(), Is.EqualTo(1));
+            Assert.That(models, Is.Not.Null);
+            Assert.Multiple(() =>
+            {
+                Assert.That(models.FirstOrDefault()?.Name, Is.EqualTo("dndbeyond"));
+                Assert.That(models.Count(), Is.EqualTo(1));
+            });
         }
     }
 }
