@@ -1,0 +1,28 @@
+<div class='card'>
+    <div class='card-header'>
+        {{pageTitle}}
+    </div>
+    <div class='card-body'>
+        <div class='table-responsive'>
+            <table class='table'>
+                <thead>
+                    <tr>
+                        <th>Link</th>
+                        <th>Description</th>
+                        <th>Tags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor='let bookmark of bookmarks'>
+                        <td><a href="{{bookmark.webLink}}">
+                            {{ bookmark.name }}
+                            </a>
+                        </td>
+                        <td>{{ bookmark.description }}</td>                       
+                        <td><span *ngFor='let tag of bookmark.tags; ; let last = last'>{{tag}}{{ last ? '' : ', ' }}</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
