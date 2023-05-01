@@ -1,27 +1,26 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IBookmark } from '../bookmark';
+import { BookmarksService } from '../bookmarks-service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-bookmarks-list',
   templateUrl: './bookmarks-list.component.html',
   styleUrls: ['./bookmarks-list.component.scss']
 })
-export class BookmarksListComponent {
+export class BookmarksListComponent implements OnInit{
   pageTitle: string = 'Bookmarks';
-  bookmarks: IBookmark[] = [
-    {
-      "name": "dndBeyond",
-      "description": "DND Beyond and beyond",
-      "webLink": "http://dndbeyond.com",
-      "modificationDate": "01.01.2020",
-      "tags": ["rpg", "dnd"]
-    },
-    {
-      "name": "chatgpt",
-      "description": "OpenAi ChatGPT",
-      "webLink": "https://chat.openai.com/",
-      "modificationDate": "01.01.2022",
-      "tags": ["ai"]
-    }
-  ];
+  sub!: Subscription;
+
+  constructor(private bookmarksService: BookmarksService) { }
+  
+  ngOnInit(): void {
+    this.sub = this.bookmarksService.loadAll().subscribe({
+      next: bookmarks => {
+          this.bookmarks = bookmarks;
+      }
+  });
+  }
+
+  bookmarks: IBookmark[] = [];
 }

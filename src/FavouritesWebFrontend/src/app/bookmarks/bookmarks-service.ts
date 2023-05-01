@@ -5,7 +5,7 @@ import ROUTES from '../app.routes';
 import { IBookmark } from './bookmark';
 
 @Injectable()
-export class OtherDeviceArticleService {
+export class BookmarksService {
   constructor(private readonly httpClient: HttpClient) {}
 
   loadAll(): Observable<IBookmark[]> {
