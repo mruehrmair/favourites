@@ -1,4 +1,4 @@
-const root = 'https://localhost:7213/api/bookmarks';
+const root = 'api/bookmarks';
 
 export default {
     loadAll: () => `${root}`,
