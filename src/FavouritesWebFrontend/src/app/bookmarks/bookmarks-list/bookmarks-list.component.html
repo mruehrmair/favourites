@@ -13,16 +13,18 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor='let bookmark of bookmarks'>
+                    <tr *ngFor='let bookmark of bookmarks$ | async'>
                         <td><a href="{{bookmark.webLink}}">
-                            {{ bookmark.name }}
+                                {{ bookmark.name }}
                             </a>
                         </td>
-                        <td>{{ bookmark.description }}</td>                       
-                        <td><span *ngFor='let tag of bookmark.tags; ; let last = last'>{{tag}}{{ last ? '' : ', ' }}</span></td>
+                        <td>{{ bookmark.description }}</td>
+                        <td><span *ngFor='let tag of bookmark.tags; ; let last = last'>{{tag}}{{ last ? '' : ', '
+                                }}</span></td>
                     </tr>
                 </tbody>
             </table>
         </div>
+        <div *ngIf="errorMessage">{{errorMessage}}</div>
     </div>
 </div>

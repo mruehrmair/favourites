@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IBookmark } from '../bookmark';
 import { BookmarksService } from '../bookmarks-service';
-import { Subscription } from 'rxjs';
+import { Observable, catchError, of } from 'rxjs';
 
 @Component({
   selector: 'app-bookmarks-list',
@@ -10,22 +10,18 @@ import { Subscription } from 'rxjs';
 })
 export class BookmarksListComponent implements OnInit {
   pageTitle: string = 'Bookmarks';
-  sub!: Subscription;
   errorMessage = '';
   constructor(private bookmarksService: BookmarksService) { }
 
   ngOnInit(): void {
-    this.sub = this.bookmarksService.loadAll().subscribe({
-      next: bookmarks => {
-        this.bookmarks = bookmarks;
-      },
-      error: err => this.errorMessage = err
-    });
+    this.bookmarks$ = this.bookmarksService.loadAll()
+      .pipe(
+        catchError(err => {
+          this.errorMessage = err;
+          return of([]);
+        })
+      );
   }
 
-  ngOnDestroy(): void {
-    this.sub.unsubscribe();
-  }
-  
-  bookmarks: IBookmark[] = [];
+  bookmarks$: Observable<IBookmark[]> | undefined;
 }

@@ -1,38 +1,44 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, catchError, throwError } from 'rxjs';
 import ROUTES from '../app.routes';
 import { IBookmark } from './bookmark';
 
 @Injectable()
 export class BookmarksService {
-  constructor(private readonly httpClient: HttpClient) {}
+  constructor(private readonly httpClient: HttpClient) { }
 
   loadAll(): Observable<IBookmark[]> {
-    return this.httpClient.get<IBookmark[]>(ROUTES.loadAll());
+    return this.httpClient.get<IBookmark[]>(ROUTES.loadAll())
+      .pipe(
+        catchError((err) => {
+          console.error(err);
+          return throwError(() => new Error('Error loading bookmarks'));
+        })
+      );
   }
 
-//   addArticle(): Observable<Article[]> {
-//     return this.httpClient.post<Article[]>(ROUTES.addArticle(), null);
-//   }
+  //   addArticle(): Observable<Article[]> {
+  //     return this.httpClient.post<Article[]>(ROUTES.addArticle(), null);
+  //   }
 
-//   removeArticle(articleId: string): Observable<Article[]> {
-//     return this.httpClient.delete<Article[]>(ROUTES.removeArticleFromOrderList(articleId));
-//   }
+  //   removeArticle(articleId: string): Observable<Article[]> {
+  //     return this.httpClient.delete<Article[]>(ROUTES.removeArticleFromOrderList(articleId));
+  //   }
 
-//   changeArticleNumber(articleId: string, articleNumber: string): Observable<Article> {
-//     return this.httpClient.put<Article>(ROUTES.changeArticleNumber(articleId), { articleNumber: articleNumber });
-//   }
+  //   changeArticleNumber(articleId: string, articleNumber: string): Observable<Article> {
+  //     return this.httpClient.put<Article>(ROUTES.changeArticleNumber(articleId), { articleNumber: articleNumber });
+  //   }
 
-//   changeArticleDescription(articleId: string, articleDescription: string): Observable<Article> {
-//     return this.httpClient.put<Article>(ROUTES.changeArticleDescription(articleId), { description: articleDescription });
-//   }
+  //   changeArticleDescription(articleId: string, articleDescription: string): Observable<Article> {
+  //     return this.httpClient.put<Article>(ROUTES.changeArticleDescription(articleId), { description: articleDescription });
+  //   }
 
-//   changeArticleManufacturer(articleId: string, articleManufacturer: string): Observable<Article> {
-//     return this.httpClient.put<Article>(ROUTES.changeArticleManufacturer(articleId), { manufacturer: articleManufacturer });
-//   }
+  //   changeArticleManufacturer(articleId: string, articleManufacturer: string): Observable<Article> {
+  //     return this.httpClient.put<Article>(ROUTES.changeArticleManufacturer(articleId), { manufacturer: articleManufacturer });
+  //   }
 
-//   changeArticleQuantity(articleId: string, articleQuantity: number): Observable<Article> {
-//     return this.httpClient.put<Article>(ROUTES.changeArticleQuantity(articleId), { quantity: articleQuantity });
-//   }
+  //   changeArticleQuantity(articleId: string, articleQuantity: number): Observable<Article> {
+  //     return this.httpClient.put<Article>(ROUTES.changeArticleQuantity(articleId), { quantity: articleQuantity });
+  //   }
 }
