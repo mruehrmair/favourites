@@ -18,9 +18,14 @@ export class BookmarksService {
       );
   }
 
-  //   addArticle(): Observable<Article[]> {
-  //     return this.httpClient.post<Article[]>(ROUTES.addArticle(), null);
-  //   }
+  addBookmark(bookmark: IBookmark): Observable<IBookmark> {
+    return this.httpClient.post<IBookmark>(ROUTES.addBookmark(), bookmark).pipe(
+      catchError((err) => {
+        console.error(err);
+        return throwError(() => new Error('Error creating bookmark'));
+      })
+    );
+  }
 
   //   removeArticle(articleId: string): Observable<Article[]> {
   //     return this.httpClient.delete<Article[]>(ROUTES.removeArticleFromOrderList(articleId));

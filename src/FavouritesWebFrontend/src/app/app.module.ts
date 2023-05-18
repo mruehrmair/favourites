@@ -6,11 +6,13 @@ import { AppComponent } from './app.component';
 import { BookmarksListComponent } from './bookmarks/bookmarks-list/bookmarks-list.component';
 import { HttpClientModule } from '@angular/common/http';
 import { BookmarksService } from './bookmarks/bookmarks-service';
+import { BookmarksAddComponent } from './bookmarks/bookmarks-add/bookmarks-add.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    BookmarksListComponent
+    BookmarksListComponent,
+    BookmarksAddComponent
   ],
   imports: [
     BrowserModule,

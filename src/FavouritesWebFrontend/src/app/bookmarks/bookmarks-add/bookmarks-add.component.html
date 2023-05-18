@@ -1,0 +1,40 @@
+<div class="modal fade" id="addBookmarkModal" tabindex="-1" aria-labelledby="addBookmarkModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="addBookmarkModalLabel">Modal title</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row mb-3 align-items-center">
+                    <div class="col-auto">
+                        <label for="inputPassword6" class="col-form-label">Name</label>
+                    </div>
+                    <div class="col-auto">
+                        <input type="text" id="inputName" class="form-control" aria-labelledby="passwordHelpInline" value="{{bookmark.name}}">
+                    </div>
+                </div>
+                <div class="row mb-3 align-items-center">
+                    <div class="col-auto">
+                        <label for="inputPassword6" class="col-form-label">Url</label>
+                    </div>
+                    <div class="col-auto">
+                        <input type="url" id="inputWebLink" class="form-control" aria-labelledby="passwordHelpInline" value="{{bookmark.webLink}}">
+                    </div>
+                </div>
+                <div class="row mb-3 align-items-center">
+                    <div class="col-auto">
+                        <label for="exampleFormControlTextarea1" class="form-label">Description</label>
+                    </div>
+                    <div class="col-auto">
+                        <textarea class="form-control" id="textareaDescription" rows="3">{{bookmark.description}}</textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" (click)="addBookmark()" class="btn btn-primary">Add bookmark</button>
+            </div>
+        </div>
+    </div>
+</div>

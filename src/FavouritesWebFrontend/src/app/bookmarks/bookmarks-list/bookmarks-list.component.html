@@ -25,6 +25,11 @@
                 </tbody>
             </table>
         </div>
-        <div *ngIf="errorMessage">{{errorMessage}}</div>
+        <button *ngIf="!errorMessage" type="button" class="btn btn-primary" data-bs-toggle="modal"
+            data-bs-target="#addBookmarkModal">
+            Add bookmark
+        </button>
+        <div class="alert alert-warning" *ngIf="errorMessage">{{errorMessage}}</div>
     </div>
 </div>
+<app-bookmarks-add></app-bookmarks-add>
