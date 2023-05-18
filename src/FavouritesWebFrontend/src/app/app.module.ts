@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BookmarksListComponent } from './bookmarks/bookmarks-list/bookmarks-list.component';
@@ -17,7 +17,8 @@ import { BookmarksAddComponent } from './bookmarks/bookmarks-add/bookmarks-add.c
   imports: [
     BrowserModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ReactiveFormsModule
   ],
   providers: [BookmarksService],
   bootstrap: [AppComponent]
