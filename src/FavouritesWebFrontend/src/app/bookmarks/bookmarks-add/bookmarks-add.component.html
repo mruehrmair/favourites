@@ -38,7 +38,8 @@
                             <label for="addBookmarksTags" class="form-label">Tags</label>
                         </div>
                         <div class="col-auto">
-                            <textarea class="form-control" id="addBookmarksTags" rows="3" formControlName="tags"></textarea>
+                            <app-tags-picker (selectedItemsChange)="handleSelectedItemsChange($event)"></app-tags-picker>
+                            <!-- <textarea class="form-control" id="addBookmarksTags" rows="3" formControlName="tags"></textarea> -->
                         </div>
                     </div>
                 </form>

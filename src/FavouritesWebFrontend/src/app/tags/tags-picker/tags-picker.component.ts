@@ -1,0 +1,47 @@
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { TagsService } from '../tags-service';
+import { catchError, of } from 'rxjs';
+
+@Component({
+  selector: 'app-tags-picker',
+  template: `
+    <div>
+  <select [(ngModel)]="selectedValue" (change)="addItem()">
+    <option *ngFor="let value of dropdownValues" [value]="value">{{ value }}</option>
+  </select>
+  <ul>
+    <li *ngFor="let item of selectedItems">{{ item }}</li>
+  </ul>
+</div>
+  `,
+  styleUrls: ['./tags-picker.component.scss']
+})
+export class TagsPickerComponent implements OnInit{
+  dropdownValues: string[] = []; 
+  selectedValue: string | undefined;
+  selectedItems: string[] = [];
+  errorMessage: any;
+
+  constructor(private tagsService: TagsService) { }
+
+  @Output() selectedItemsChange: EventEmitter<string[]> = new EventEmitter<string[]>();
+
+  ngOnInit(): void {
+    this.tagsService.loadAll()
+      .pipe(
+        catchError(err => {
+          this.errorMessage = err;
+          return of([]);
+        })
+      ).subscribe((values) => {this.dropdownValues = values; console.log(values);});
+  }
+
+  addItem() {
+    if (this.selectedValue) {
+      this.selectedItems.push(this.selectedValue);
+      this.dropdownValues = this.dropdownValues.filter((value) => value !== this.selectedValue);
+      this.selectedValue = '';
+      this.selectedItemsChange.emit(this.selectedItems); // Emit the selected items
+    }
+  }
+}

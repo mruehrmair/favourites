@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BookmarksListComponent } from './bookmarks/bookmarks-list/bookmarks-list.component';
@@ -8,21 +8,25 @@ import { HttpClientModule } from '@angular/common/http';
 import { BookmarksService } from './bookmarks/bookmarks-service';
 import { BookmarksAddComponent } from './bookmarks/bookmarks-add/bookmarks-add.component';
 import { BookmarksDeleteComponent } from './bookmarks/bookmarks-delete/bookmarks-delete.component';
+import { TagsPickerComponent } from './tags/tags-picker/tags-picker.component';
+import { TagsService } from './tags/tags-service';
 
 @NgModule({
   declarations: [
     AppComponent,
     BookmarksListComponent,
     BookmarksAddComponent,
-    BookmarksDeleteComponent
+    BookmarksDeleteComponent,
+    TagsPickerComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
   ],
-  providers: [BookmarksService],
+  providers: [BookmarksService, TagsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

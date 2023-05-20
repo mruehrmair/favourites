@@ -13,13 +13,15 @@ import { FormControl, FormGroup } from '@angular/forms';
 export class BookmarksAddComponent implements OnInit {
   constructor(private bookmarksService: BookmarksService) {
     //this.bookmark$ = of({name: 'test', description: '', modificationDate: '', tags: [], webLink: ''});
+   
     this.bookmarkForm = new FormGroup({
       name: new FormControl(''),
       webLink: new FormControl(''),
       description: new FormControl(''),
-      tags: new FormControl('')
+      // tags: new FormControl('')
     });
   }
+  tags: string[] = [];
   bookmarkForm: FormGroup;
   //bookmark = {} as IBookmark;
   bookmark$: Observable<IBookmark> | undefined;
@@ -34,9 +36,15 @@ export class BookmarksAddComponent implements OnInit {
       name: this.bookmarkForm.value.name,
       webLink: this.bookmarkForm.value.webLink,
       description: this.bookmarkForm.value.description,
-      tags: this.bookmarkForm.value.tags.split(',')
+      tags: this.tags
     });
     this.bookmark$?.subscribe(value => console.log(value));
+  }
+
+  handleSelectedItemsChange(selectedItems: string[]) {
+    // Do something with the selected items
+    console.log(selectedItems);
+    this.tags = selectedItems;
   }
 
 }
