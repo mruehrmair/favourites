@@ -16,7 +16,8 @@ export class BookmarksAddComponent implements OnInit {
     this.bookmarkForm = new FormGroup({
       name: new FormControl(''),
       webLink: new FormControl(''),
-      description: new FormControl('')
+      description: new FormControl(''),
+      tags: new FormControl('')
     });
   }
   bookmarkForm: FormGroup;
@@ -33,7 +34,7 @@ export class BookmarksAddComponent implements OnInit {
       name: this.bookmarkForm.value.name,
       webLink: this.bookmarkForm.value.webLink,
       description: this.bookmarkForm.value.description,
-      tags: []
+      tags: this.bookmarkForm.value.tags.split(',')
     });
     this.bookmark$?.subscribe(value => console.log(value));
   }
