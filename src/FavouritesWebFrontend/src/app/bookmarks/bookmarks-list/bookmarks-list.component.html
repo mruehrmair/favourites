@@ -10,6 +10,7 @@
                         <th>Link</th>
                         <th>Description</th>
                         <th>Tags</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -21,6 +22,7 @@
                         <td>{{ bookmark.description }}</td>
                         <td><span *ngFor='let tag of bookmark.tags; ; let last = last'>{{tag}}{{ last ? '' : ', '
                                 }}</span></td>
+                        <td><app-bookmarks-delete [bookmarkName]="bookmark.name"></app-bookmarks-delete></td>
                     </tr>
                 </tbody>
             </table>

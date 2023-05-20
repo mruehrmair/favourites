@@ -7,12 +7,14 @@ import { BookmarksListComponent } from './bookmarks/bookmarks-list/bookmarks-lis
 import { HttpClientModule } from '@angular/common/http';
 import { BookmarksService } from './bookmarks/bookmarks-service';
 import { BookmarksAddComponent } from './bookmarks/bookmarks-add/bookmarks-add.component';
+import { BookmarksDeleteComponent } from './bookmarks/bookmarks-delete/bookmarks-delete.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     BookmarksListComponent,
-    BookmarksAddComponent
+    BookmarksAddComponent,
+    BookmarksDeleteComponent
   ],
   imports: [
     BrowserModule,

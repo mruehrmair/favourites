@@ -27,6 +27,14 @@ export class BookmarksService {
     );
   }
 
+  deleteBookmark(bookmarkName: string): Observable<IBookmark> {
+    return this.httpClient.delete<IBookmark>(ROUTES.deleteBookmark(bookmarkName)).pipe(
+      catchError((err) => {
+        console.error(err);
+        return throwError(() => new Error('Error deleting bookmark'));
+      })
+    );
+  }
   //   removeArticle(articleId: string): Observable<Article[]> {
   //     return this.httpClient.delete<Article[]>(ROUTES.removeArticleFromOrderList(articleId));
   //   }
