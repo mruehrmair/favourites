@@ -21,12 +21,15 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - run: |
+      - name: Run npm ci
+        run: |
           cd src/FavouritesWebFrontend
           npm ci
-      - run: |
+      - name: Run npm run build
+        run: |
           cd src/FavouritesWebFrontend
           npm run build --if-present
-      - run: |
+      - name: Run npm test
+        run: |
           cd src/FavouritesWebFrontend
           npm test -- --watch=false --browsers=ChromeHeadless
