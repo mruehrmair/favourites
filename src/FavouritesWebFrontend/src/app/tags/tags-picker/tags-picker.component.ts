@@ -5,10 +5,14 @@ import { catchError, of } from 'rxjs';
 @Component({
   selector: 'app-tags-picker',
   template: `
-    <div>
-  <select [(ngModel)]="selectedValue" (change)="addItem()">
+  <div>
+  <input type="text" class="form-control" [(ngModel)]="inputValue" />
+  <button (click)="addInput()" class="btn btn-secondary">Add</button>
+  <select [(ngModel)]="selectedValue" (change)="addItem()" class="form-select">
     <option *ngFor="let value of dropdownValues" [value]="value">{{ value }}</option>
   </select>
+</div>
+  <div>
   <ul>
     <li *ngFor="let item of selectedItems">{{ item }}</li>
   </ul>
@@ -16,9 +20,10 @@ import { catchError, of } from 'rxjs';
   `,
   styleUrls: ['./tags-picker.component.scss']
 })
-export class TagsPickerComponent implements OnInit{
-  dropdownValues: string[] = []; 
+export class TagsPickerComponent implements OnInit {
+  dropdownValues: string[] = [];
   selectedValue: string | undefined;
+  inputValue: string | undefined;
   selectedItems: string[] = [];
   errorMessage: any;
 
@@ -33,7 +38,13 @@ export class TagsPickerComponent implements OnInit{
           this.errorMessage = err;
           return of([]);
         })
-      ).subscribe((values) => {this.dropdownValues = values; console.log(values);});
+      ).subscribe((values) => { this.dropdownValues = values; console.log(values); });
+  }
+  
+  addInput() {
+    this.selectedValue = this.inputValue;
+    this.inputValue = '';
+    this.addItem();
   }
 
   addItem() {

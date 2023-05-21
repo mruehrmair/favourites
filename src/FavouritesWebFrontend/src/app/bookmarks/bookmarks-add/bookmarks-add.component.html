@@ -8,7 +8,7 @@
             <div class="modal-body">
                 <form [formGroup]="bookmarkForm" (ngSubmit)="addBookmark()">
                     <div class="row mb-3 align-items-center">
-                        <div class="col-auto">
+                        <div class="col-3">
                             <label for="inputPassword6" class="col-form-label">Name</label>
                         </div>
                         <div class="col-auto">
@@ -17,7 +17,7 @@
                         </div>
                     </div>
                     <div class="row mb-3 align-items-center">
-                        <div class="col-auto">
+                        <div class="col-3">
                             <label for="inputPassword6" class="col-form-label">Url</label>
                         </div>
                         <div class="col-auto">
@@ -26,15 +26,15 @@
                         </div>
                     </div>
                     <div class="row mb-3 align-items-center">
-                        <div class="col-auto">
+                        <div class="col-3">
                             <label for="exampleFormControlTextarea1" class="form-label">Description</label>
                         </div>
                         <div class="col-auto">
-                            <textarea class="form-control" id="textareaDescription" rows="3" formControlName="description"></textarea>
+                            <textarea class="form-control" id="textareaDescription" rows="4" formControlName="description"></textarea>
                         </div>
                     </div>
                     <div class="row mb-3 align-items-center">
-                        <div class="col-auto">
+                        <div class="col-3">
                             <label for="addBookmarksTags" class="form-label">Tags</label>
                         </div>
                         <div class="col-auto">
