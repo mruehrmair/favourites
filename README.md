@@ -15,12 +15,19 @@ Microsoft.EntityFrameworkCore.Sqlite
 * dotnet ef migrations add BookmarkDbInitial -s ..\Favourites.API\Favourites.API.csproj
 * dotnet ef database update -s ..\Favourites.API\Favourites.API.csproj
 # Docker
+## Create local self-signed developer certificate
+dotnet dev-certs https --clean
+dotnet dev-certs https -ep $env:USERPROFILE\.aspnet\https\Favourites.API.pfx -p <Password>
+dotnet dev-certs https --trust
+dotnet user-secrets -p .\Favourites.API\Favourites.API.csproj set "Kestrel:Certificates:Development:Password" "<Password>"
 ## Build image
 docker build -t favouritesapi:0.1 .
 ## Run 
-docker run -d -p 7213:80 --name favourites favouritesapi:0.1
+docker run --rm -it -p 5208:80 -p 7213:443 -v favourites-data:/app/data -v $env:APPDATA\microsoft\UserSecrets\:/root/.microsoft/usersecrets -v $env:USERPROFILE\.aspnet\https:/root/.aspnet/https/ --name favourites favouritesapi:0.1
 ## Delete container
 docker rm -f favourites
+## Shell
+docker exec -it favourites sh
 # Build and Test
 TODO: Describe and show how to build your code and run the tests. 
 

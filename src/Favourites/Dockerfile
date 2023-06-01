@@ -20,4 +20,6 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "Favourites.API.dll"]
+ENV ASPNETCORE_URLS="https://+;http://+"
 ENV ASPNETCORE_ENVIRONMENT=Development
+ENV ASPNETCORE_HTTPS_PORT=7213
