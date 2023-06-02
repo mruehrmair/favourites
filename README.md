@@ -28,6 +28,14 @@ docker run --rm -it -p 5208:80 -p 7213:443 -v favourites-data:/app/data -v $env:
 docker rm -f favourites
 ## Shell
 docker exec -it favourites sh
+## Azure Container Registry
+az login
+$resourceGroup = "xxx"
+$registryName = "xxx"
+az acr login -n $registryName
+az acr create -g $resourceGroup -n $registryName --sku Basic --admin-enabled true
+$loginServer = az acr show -n $registryName --query loginServer --output tsv
+docker push $loginServer/favouritesapi:0.1
 # Build and Test
 TODO: Describe and show how to build your code and run the tests. 
 
