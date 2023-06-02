@@ -35,7 +35,7 @@ $registryName = "xxx"\
 az acr login -n $registryName\
 az acr create -g $resourceGroup -n $registryName --sku Basic --admin-enabled true\
 $loginServer = az acr show -n $registryName --query loginServer --output tsv\
-docker push $loginServer/favouritesapi:0.1\
+docker push $loginServer/favouritesapi:0.1
 # Build and Test
 TODO: Describe and show how to build your code and run the tests. 
 
