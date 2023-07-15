@@ -17,7 +17,7 @@ Microsoft.EntityFrameworkCore.Sqlite
 # Docker
 ## Create local self-signed developer certificate
 dotnet dev-certs https --clean\
-dotnet dev-certs https -ep $env:USERPROFILE\.aspnet\https\Favourites.API.pfx -p <Password>\
+dotnet dev-certs https -ep $env:USERPROFILE\.aspnet\https\Favourites.API.pfx -p "<Password>"\
 dotnet dev-certs https --trust\
 dotnet user-secrets -p .\Favourites.API\Favourites.API.csproj set "Kestrel:Certificates:Development:Password" "<Password>"
 ## Build image
