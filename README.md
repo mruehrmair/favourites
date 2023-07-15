@@ -44,7 +44,9 @@ TODO: Describe and show how to build your code and run the tests.
 # Contribute
 ## TODOs
 ### Frontend
-User should be able to delete tags while in bookmark creation modal
+* User should be able to delete tags while in bookmark creation modal
+* Tags should be displayed as chips/badges with delete icon
+* Add icons
 ### API
 ## Further Reading
 If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
