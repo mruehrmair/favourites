@@ -5,6 +5,7 @@ EXPOSE 80
 EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+RUN dotnet dev-certs https
 WORKDIR /src
 COPY ["Favourites.API/Favourites.API.csproj", "Favourites.API/"]
 COPY ["Favourites.Data/Favourites.Data.csproj", "Favourites.Data/"]
@@ -18,6 +19,7 @@ RUN dotnet publish "Favourites.API.csproj" -c Release -o /app/publish /p:UseAppH
 
 FROM base AS final
 WORKDIR /app
+COPY --from=publish /root/.dotnet/corefx/cryptography/x509stores/my/* /root/.dotnet/corefx/cryptography/x509stores/my/
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "Favourites.API.dll"]
 ENV ASPNETCORE_URLS="https://+;http://+"
