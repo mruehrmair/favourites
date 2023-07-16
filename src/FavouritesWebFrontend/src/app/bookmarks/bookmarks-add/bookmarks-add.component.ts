@@ -29,8 +29,9 @@ export class BookmarksAddComponent implements OnInit {
     //this.bookmark$?.subscribe(value => this.bookmark = value);
   }
 
-  addBookmark(): void {
-    //console.log(this.bookmarkForm.value);
+  addBookmark(event: Event): void {
+    let element = event.target;
+    console.log(element);
     this.bookmark$ = this.bookmarksService.addBookmark({
       modificationDate: '',
       name: this.bookmarkForm.value.name,

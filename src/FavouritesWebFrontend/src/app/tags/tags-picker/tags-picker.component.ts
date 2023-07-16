@@ -7,7 +7,7 @@ import { catchError, of } from 'rxjs';
   template: `
   <div>
   <input type="text" class="form-control" [(ngModel)]="inputValue" />
-  <button (click)="addInput()" class="btn btn-secondary">Add</button>
+  <button (click)="addInput($event)" class="btn btn-secondary">Add</button>
   <select [(ngModel)]="selectedValue" (change)="addItem()" class="form-select">
     <option *ngFor="let value of dropdownValues" [value]="value">{{ value }}</option>
   </select>
@@ -36,7 +36,10 @@ export class TagsPickerComponent implements OnInit {
       ).subscribe((values) => { this.dropdownValues = values; console.log(values); });
   }
 
-  addInput() {
+  addInput(event: Event) {
+    let element = event.target;
+    console.log(element);
+    event.stopPropagation();
     this.selectedValue = this.inputValue;
     this.inputValue = '';
     this.addItem();

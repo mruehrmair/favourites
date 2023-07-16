@@ -6,7 +6,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form [formGroup]="bookmarkForm" (ngSubmit)="addBookmark()">
+                <form [formGroup]="bookmarkForm">
                     <div class="row mb-3 align-items-center">
                         <div class="col-3">
                             <label for="inputPassword6" class="col-form-label">Name</label>
@@ -55,7 +55,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" (click)="addBookmark()" class="btn btn-primary">Add bookmark</button>
+                <button type="button" (click)="addBookmark($event)" class="btn btn-primary">Add bookmark</button>
             </div>
         </div>
     </div>
