@@ -23,9 +23,7 @@ dotnet user-secrets -p .\Favourites.API\Favourites.API.csproj set "Kestrel:Certi
 ## Build image
 docker build -t favouritesapi:0.1 .
 ## Run 
-docker run --rm -it -p 5208:80 -p 7213:443 -v favourites-data:/app/data -v $env:APPDATA//microsoft//U
-serSecrets//:/root/.microsoft/usersecrets -v $env:USERPROFILE//.aspnet//https//:/root/.aspnet/https/ --name favourites favouri
-tesapi:0.1
+docker run --rm -it -p 5208:80 -p 7213:443 -v favourites-data:/app/data -v $env:APPDATA//microsoft//UserSecrets//:/root/.microsoft/usersecrets -v $env:USERPROFILE//.aspnet//https//:/root/.aspnet/https/ --name favourites favouritesapi:0.1
 ## Local address
 https://localhost:7213/api/bookmarks
 ## Delete container
