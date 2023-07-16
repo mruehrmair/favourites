@@ -9,6 +9,7 @@ import { IBookmark } from './bookmarks/bookmark';
 import { TagsPickerComponent } from './tags/tags-picker/tags-picker.component';
 import { BookmarksAddComponent } from './bookmarks/bookmarks-add/bookmarks-add.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TagsListComponent } from './tags/tags-list/tags-list.component';
 
 describe('AppComponent', () => {
   let bookmarksServiceStub: Partial<BookmarksService>;
@@ -26,7 +27,7 @@ describe('AppComponent', () => {
         RouterTestingModule, FormsModule, ReactiveFormsModule
       ],
       declarations: [
-        AppComponent, BookmarksListComponent, BookmarksAddComponent, TagsPickerComponent
+        AppComponent, BookmarksListComponent, BookmarksAddComponent, TagsPickerComponent, TagsListComponent
       ],
       providers: [{ provide: BookmarksService, useValue: bookmarksServiceStub }, { provide: TagsService, useValue: tagsServiceStub }],
     }).compileComponents();

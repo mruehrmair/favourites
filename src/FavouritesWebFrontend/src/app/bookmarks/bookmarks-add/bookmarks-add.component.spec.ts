@@ -6,6 +6,7 @@ import { TagsService } from 'src/app/tags/tags-service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { IBookmark } from '../bookmark';
+import { TagsListComponent } from 'src/app/tags/tags-list/tags-list.component';
 
 describe('BookmarksAddComponent', () => {
   let component: BookmarksAddComponent;
@@ -23,7 +24,7 @@ describe('BookmarksAddComponent', () => {
     
     await TestBed.configureTestingModule({
       imports: [FormsModule, ReactiveFormsModule],
-      declarations: [BookmarksAddComponent, TagsPickerComponent],
+      declarations: [BookmarksAddComponent, TagsPickerComponent, TagsListComponent],
       providers: [{ provide: BookmarksService, useValue: bookmarksServiceStub }, { provide: TagsService, useValue: tagsServiceStub }],
     })
       .compileComponents();

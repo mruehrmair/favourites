@@ -11,12 +11,7 @@ import { catchError, of } from 'rxjs';
   <select [(ngModel)]="selectedValue" (change)="addItem()" class="form-select">
     <option *ngFor="let value of dropdownValues" [value]="value">{{ value }}</option>
   </select>
-</div>
-  <div>
-  <ul>
-    <li *ngFor="let item of selectedItems">{{ item }}</li>
-  </ul>
-</div>
+  </div>
   `,
   styleUrls: ['./tags-picker.component.scss']
 })
@@ -40,7 +35,7 @@ export class TagsPickerComponent implements OnInit {
         })
       ).subscribe((values) => { this.dropdownValues = values; console.log(values); });
   }
-  
+
   addInput() {
     this.selectedValue = this.inputValue;
     this.inputValue = '';

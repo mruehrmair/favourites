@@ -10,6 +10,7 @@ import { BookmarksAddComponent } from './bookmarks/bookmarks-add/bookmarks-add.c
 import { BookmarksDeleteComponent } from './bookmarks/bookmarks-delete/bookmarks-delete.component';
 import { TagsPickerComponent } from './tags/tags-picker/tags-picker.component';
 import { TagsService } from './tags/tags-service';
+import { TagsListComponent } from './tags/tags-list/tags-list.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { TagsService } from './tags/tags-service';
     BookmarksListComponent,
     BookmarksAddComponent,
     BookmarksDeleteComponent,
-    TagsPickerComponent
+    TagsPickerComponent,
+    TagsListComponent
   ],
   imports: [
     BrowserModule,
