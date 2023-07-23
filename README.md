@@ -47,7 +47,7 @@ TODO: Describe and show how to build your code and run the tests.
 * ~~User should be able to delete tags while in bookmark creation modal~~
 * Tags should be displayed as chips/badges with delete icon
 * Add icons
-* Modal closes after creating a bookmark
+* ~~Modal closes after creating a bookmark~~
 * bookmark list automatically refreshes after creating or deleting
 ### API
 ## Further Reading
