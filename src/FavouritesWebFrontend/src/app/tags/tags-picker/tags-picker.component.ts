@@ -6,7 +6,7 @@ import { catchError, of } from 'rxjs';
   selector: 'app-tags-picker',
   template: `
   <div>
-  <input type="text" class="form-control" [(ngModel)]="inputValue" />
+  <input type="text" class="form-control" [(ngModel)]="inputValue" id="addBookmarksTags" />
   <button (click)="addInput($event)" class="btn btn-secondary">Add</button>
   <select [(ngModel)]="selectedValue" (change)="addItem()" class="form-select">
     <option *ngFor="let value of dropdownValues" [value]="value">{{ value }}</option>

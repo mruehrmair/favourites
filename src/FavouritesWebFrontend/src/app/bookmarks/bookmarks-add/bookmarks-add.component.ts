@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { BookmarksService } from '../bookmarks-service';
 import { Observable } from 'rxjs';
 import { IBookmark } from '../bookmark';
 import { FormControl, FormGroup } from '@angular/forms';
+declare var window: any;
 
 @Component({
   selector: 'app-bookmarks-add',
@@ -11,9 +12,10 @@ import { FormControl, FormGroup } from '@angular/forms';
 })
 
 export class BookmarksAddComponent implements OnInit {
+  formModal: any;
   constructor(private bookmarksService: BookmarksService) {
     //this.bookmark$ = of({name: 'test', description: '', modificationDate: '', tags: [], webLink: ''});
-   
+    
     this.bookmarkForm = new FormGroup({
       name: new FormControl(''),
       webLink: new FormControl(''),
@@ -26,6 +28,9 @@ export class BookmarksAddComponent implements OnInit {
   //bookmark = {} as IBookmark;
   bookmark$: Observable<IBookmark> | undefined;
   ngOnInit(): void {
+    this.formModal = new window.bootstrap.Modal(
+      document.getElementById('addBookmarkModal')
+    );
     //this.bookmark$?.subscribe(value => this.bookmark = value);
   }
 
@@ -40,6 +45,7 @@ export class BookmarksAddComponent implements OnInit {
       tags: this.tags
     });
     this.bookmark$?.subscribe(value => console.log(value));
+    this.formModal.hide();
   }
 
   handleSelectedItemsChange(selectedItems: string[]) {
