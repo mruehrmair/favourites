@@ -44,6 +44,7 @@ TODO: Describe and show how to build your code and run the tests.
 # Contribute
 ## TODOs
 ### Frontend
+* Fix tags and tag dropdown list
 * ~~User should be able to delete tags while in bookmark creation modal~~
 * Tags should be displayed as chips/badges with delete icon
 * Add icons
