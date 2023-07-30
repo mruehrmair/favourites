@@ -21,23 +21,19 @@ public class BookmarkService : IBookmarkService
     {
         if (entity.Tags != null)
         {
-            var allTags = await _tagRepository.GetAllAsync(null,false,Bookmarks);
-            var updatedTagCollection = new List<Tag>();
-            updatedTagCollection.AddRange(from tag in entity.Tags
-                let existingTag = allTags.FirstOrDefault(x => x.Name == tag.Name)
-                select existingTag ?? tag);
-            entity.Tags = updatedTagCollection;
+            entity.Tags = (await UpdateTags(entity.Tags)).ToList();
+            foreach (var tag in entity.Tags)
+            {
+                tag.Bookmarks ??= new List<Bookmark> { entity };
+            }
         }
-
+        
         var existingEntity = await _bookmarkRepository.GetAsync(entity);
         if (existingEntity != null)
         {
-            await _bookmarkRepository.UpdateAsync(existingEntity, entity);
+            await _bookmarkRepository.DeleteAsync(existingEntity);
         }
-        else
-        {
-            await _bookmarkRepository.CreateAsync(entity);
-        }
+        await _bookmarkRepository.CreateAsync(entity);
     }
 
     public async Task UpsertAllAsync(IEnumerable<Bookmark> entities)
@@ -55,21 +51,33 @@ public class BookmarkService : IBookmarkService
 
     public async Task<IReadOnlyCollection<Bookmark>> GetAllBookmarksAsync(string? search = null)
     {
-        if (search == null) return (IReadOnlyCollection<Bookmark>)await _bookmarkRepository.GetAllAsync(null,true, Tags);
+        if (search == null)
+            return (IReadOnlyCollection<Bookmark>)await _bookmarkRepository.GetAllAsync(null, true, Tags);
 
         bool SearchDelegate(Bookmark b) => b.Name.Contains(search) || b.WebLink.AbsoluteUri.Contains(search) ||
                                            b.Description != null && b.Description.Contains(search);
 
-        return (IReadOnlyCollection<Bookmark>)await _bookmarkRepository.GetAllAsync(SearchDelegate, true,Tags);
+        return (IReadOnlyCollection<Bookmark>)await _bookmarkRepository.GetAllAsync(SearchDelegate, true, Tags);
     }
 
     public async Task<IReadOnlyCollection<Tag>> GetAllTagsAsync()
     {
-        return (IReadOnlyCollection<Tag>)await _tagRepository.GetAllAsync();
+        return (IReadOnlyCollection<Tag>)await _tagRepository.GetAllAsync(null, false, Bookmarks);
     }
 
     public async Task DeleteTagAsync(Tag entity)
     {
         await _tagRepository.DeleteAsync(entity);
+    }
+    
+    private async Task<IEnumerable<Tag>> UpdateTags(IEnumerable<Tag> entityTags)
+    {
+        var allTags = await GetAllTagsAsync();
+        var tags = entityTags.ToList();
+        var updatedTagCollection = new List<Tag>();
+        updatedTagCollection.AddRange(from tag in tags
+            let existingTag = allTags.FirstOrDefault(x => x.Name == tag.Name)
+            select existingTag ?? tag);
+        return updatedTagCollection;
     }
 }

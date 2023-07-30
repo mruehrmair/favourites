@@ -24,17 +24,19 @@ namespace Favourites.Data.Tests
 
             //Assert
             Assert.That(bookmarks, Has.Count.EqualTo(expectedNumberOfSeededObjects));
-            Assert.That(bookmarks.SelectMany(x=>x.Tags ?? new List<Tag>()).ToList(), Has.Count.EqualTo(expectedNumberOfTags));
+            Assert.That(bookmarks.SelectMany(x => x.Tags ?? new List<Tag>()).ToList(),
+                Has.Count.EqualTo(expectedNumberOfTags));
         }
-        
+
         [Test]
-        [TestCase("donjon",1)]
-        [TestCase("bin",2)]
-        public async Task GetBookmarks_SearchTextInBaseSeeding_ReturnsCorrectNumberOfObjects(string searchString, int expectedResults)
+        [TestCase("donjon", 1)]
+        [TestCase("bin", 2)]
+        public async Task GetBookmarks_SearchTextInBaseSeeding_ReturnsCorrectNumberOfObjects(string searchString,
+            int expectedResults)
         {
             //Arrange
             var sut = new BookmarkService(BookmarkRepository, TagRepository);
-            
+
             //Act
             var bookmarks = await sut.GetAllBookmarksAsync(searchString);
 
@@ -78,6 +80,33 @@ namespace Favourites.Data.Tests
             //Assert
             Assert.That(bookmarks, Has.Count.EqualTo(expectedNumberOfSeededObjects));
             Assert.That(bookmarks.FirstOrDefault(x => x.Name == name)?.Description, Is.EqualTo(description));
+        }
+
+        [Test]
+        public async Task UpsertBookmark_ExistingBookmarkWithNewTag_BookmarkUpdated()
+        {
+            //Arrange
+            const string description = "RPG Randomizer website";
+            const string name = "donjon";
+            var sut = new BookmarkService(BookmarkRepository, TagRepository);
+            var existingBookmark = new Bookmark(name, new Uri("https://donjon.bin.sh/"))
+            {
+                Description = description,
+                Tags = new List<Tag> { new("rpg"), new("donjon") }
+            };
+            const int expectedNumberOfSeededObjects = 2;
+            const int expectedNumberOfTags = 4;
+
+            //Act
+            await sut.UpsertAsync(existingBookmark);
+            var bookmarks = await sut.GetAllBookmarksAsync();
+            var allTags = await sut.GetAllTagsAsync();
+            
+            //Assert
+            Assert.That(bookmarks, Has.Count.EqualTo(expectedNumberOfSeededObjects));
+            Assert.That(bookmarks.FirstOrDefault(x => x.Name == name)?.Description, Is.EqualTo(description));
+            Assert.That(allTags,
+                Has.Count.EqualTo(expectedNumberOfTags));
         }
 
         [Test]

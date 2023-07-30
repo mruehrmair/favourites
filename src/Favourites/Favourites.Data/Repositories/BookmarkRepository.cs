@@ -6,6 +6,5 @@ namespace Favourites.Data.Repositories;
 public class BookmarkRepository : AbstractRepository<Bookmark>, IBookmarkRepository
 {
     public BookmarkRepository(BookmarkDbContext dbContext) : base(dbContext)
-    {
-    }
+    {}
 }
