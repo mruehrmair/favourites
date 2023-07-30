@@ -1,6 +1,6 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { BookmarksService } from '../bookmarks-service';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { IBookmark } from '../bookmark';
 import { FormControl, FormGroup } from '@angular/forms';
 
@@ -10,45 +10,70 @@ import { FormControl, FormGroup } from '@angular/forms';
   styleUrls: ['./bookmarks-add.component.scss']
 })
 
-export class BookmarksAddComponent implements OnInit {
+export class BookmarksAddComponent implements OnInit, OnDestroy {
   @ViewChild('closeModal') closeModal: ElementRef | undefined;
+  @Input()
+  selectedBookmark$!: Observable<IBookmark>;
+  tags: string[] = [];
+  bookmarkForm!: FormGroup;
+  bookmark$: Observable<IBookmark> | undefined;
+  isEdit: boolean = false;
+  get title(): string {
+    return this.isEdit ? 'Edit bookmark' : 'Add bookmark';
+  }
 
+  private subscriptions: Subscription[] | undefined;
   constructor(private bookmarksService: BookmarksService) {
-    //this.bookmark$ = of({name: 'test', description: '', modificationDate: '', tags: [], webLink: ''});
-    
     this.bookmarkForm = new FormGroup({
       name: new FormControl(''),
       webLink: new FormControl(''),
       description: new FormControl(''),
-      // tags: new FormControl('')
     });
-  }
-  tags: string[] = [];
-  bookmarkForm: FormGroup;
-  //bookmark = {} as IBookmark;
-  bookmark$: Observable<IBookmark> | undefined;
-  ngOnInit(): void {
-    //this.bookmark$?.subscribe(value => this.bookmark = value);
   }
 
-  addBookmark(event: Event): void {
-    let element = event.target;
-    console.log(element);
-    this.bookmark$ = this.bookmarksService.addBookmark({
+  ngOnDestroy(): void {
+    for (const subscription of this.subscriptions || []) {
+      subscription.unsubscribe();
+    }
+  }
+
+  ngOnInit(): void {
+    if (this.selectedBookmark$) {
+      let sub = this.selectedBookmark$.subscribe(bookmark => {
+        this.isEdit = bookmark?.name ? true : false;
+        this.bookmarkForm.get('name')?.setValue(bookmark?.name);
+        this.bookmarkForm.get('webLink')?.setValue(bookmark?.webLink);
+        this.bookmarkForm.get('description')?.setValue(bookmark?.description);
+        this.tags = bookmark?.tags || [];
+      })
+      this.subscriptions?.push(sub);
+    }
+  }
+
+  addBookmark(): void {
+    let bookmark: IBookmark = {
       modificationDate: '',
-      name: this.bookmarkForm.value.name,
-      webLink: this.bookmarkForm.value.webLink,
-      description: this.bookmarkForm.value.description,
+      name: this.bookmarkForm?.value.name,
+      webLink: this.bookmarkForm?.value.webLink,
+      description: this.bookmarkForm?.value.description,
       tags: this.tags
-    });
-    this.bookmark$?.subscribe(value => console.log(value));
+    };
+
+    if (this.isEdit) {
+      console.log(`Edit: ${JSON.stringify(bookmark)}`);
+      this.bookmark$ = this.bookmarksService.editBookmark(bookmark);
+    }
+    else {
+      console.log(`Add: ${JSON.stringify(bookmark)}`);
+      this.bookmark$ = this.bookmarksService.addBookmark(bookmark);
+    }
+    let sub = this.bookmark$?.subscribe(value => console.log(value))
+    this.subscriptions?.push(sub);
     this.closeModal?.nativeElement.click();
   }
 
   handleSelectedItemsChange(selectedItems: string[]) {
-    // Do something with the selected items
     console.log(selectedItems);
     this.tags = selectedItems;
   }
-
 }

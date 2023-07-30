@@ -4,7 +4,7 @@ import { BookmarksService } from '../bookmarks-service';
 @Component({
   selector: 'app-bookmarks-delete',
   template: `
-    <a [routerLink]="" (click)="deleteBookmark()">Delete bookmark</a>
+    <a [routerLink]="" (click)="deleteBookmark()" class="btn btn-secondary">Delete bookmark</a>
   `,
   styleUrls: ['./bookmarks-delete.component.scss']
 })

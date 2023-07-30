@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="addBookmarkModalLabel">Modal title</h1>
+                <h1 class="modal-title fs-5" id="addBookmarkModalLabel">{{title}}</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -30,7 +30,8 @@
                             <label for="textareaDescription" class="form-label">Description</label>
                         </div>
                         <div class="col-auto">
-                            <textarea class="form-control" id="textareaDescription" rows="4" formControlName="description"></textarea>
+                            <textarea class="form-control" id="textareaDescription" rows="4"
+                                formControlName="description"></textarea>
                         </div>
                     </div>
                     <div class="row mb-3 align-items-center">
@@ -38,24 +39,24 @@
                             <label for="addBookmarksTags" class="form-label">Tags</label>
                         </div>
                         <div class="col-auto">
-                            <app-tags-picker (selectedItemsChange)="handleSelectedItemsChange($event)"></app-tags-picker>
-                            <!-- <textarea class="form-control" id="addBookmarksTags" rows="3" formControlName="tags"></textarea> -->
+                            <app-tags-picker
+                                (selectedItemsChange)="handleSelectedItemsChange($event)"></app-tags-picker>
                         </div>
                     </div>
                     <div class="row mb-3 align-items-center">
                         <div class="col-3">
-                        
+
                         </div>
                         <div class="col-auto">
                             <app-tags-list [tags]="tags"></app-tags-list>
                         </div>
                     </div>
-                  
+
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" #closeModal data-bs-dismiss="modal">Close</button>
-                <button type="button" (click)="addBookmark($event)" class="btn btn-primary">Add bookmark</button>
+                <button type="button" (click)="addBookmark()" class="btn btn-primary">{{title}}</button>
             </div>
         </div>
     </div>

@@ -35,23 +35,13 @@ export class BookmarksService {
       })
     );
   }
-  //   removeArticle(articleId: string): Observable<Article[]> {
-  //     return this.httpClient.delete<Article[]>(ROUTES.removeArticleFromOrderList(articleId));
-  //   }
 
-  //   changeArticleNumber(articleId: string, articleNumber: string): Observable<Article> {
-  //     return this.httpClient.put<Article>(ROUTES.changeArticleNumber(articleId), { articleNumber: articleNumber });
-  //   }
-
-  //   changeArticleDescription(articleId: string, articleDescription: string): Observable<Article> {
-  //     return this.httpClient.put<Article>(ROUTES.changeArticleDescription(articleId), { description: articleDescription });
-  //   }
-
-  //   changeArticleManufacturer(articleId: string, articleManufacturer: string): Observable<Article> {
-  //     return this.httpClient.put<Article>(ROUTES.changeArticleManufacturer(articleId), { manufacturer: articleManufacturer });
-  //   }
-
-  //   changeArticleQuantity(articleId: string, articleQuantity: number): Observable<Article> {
-  //     return this.httpClient.put<Article>(ROUTES.changeArticleQuantity(articleId), { quantity: articleQuantity });
-  //   }
+  editBookmark(bookmark: IBookmark): Observable<IBookmark> {
+    return this.httpClient.put<IBookmark>(ROUTES.editBookmark(), bookmark).pipe(
+      catchError((err) => {
+        console.error(err);
+        return throwError(() => new Error('Error editing bookmark'));
+      })
+    );
+  }
 }

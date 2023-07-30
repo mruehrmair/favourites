@@ -1,9 +1,9 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-tags-list',
   template: `
-   <button type="button" *ngFor="let item of tags" (click)="deleteTag(item)" class="btn btn-primary btn-sm" style="margin-right: 2px;">
+   <button type="button" *ngFor="let item of tags" (click)="deleteTag(item)" class="btn btn-secondary btn-sm" style="margin-right: 2px;">
                                 {{ item }} 
    </button>
   `

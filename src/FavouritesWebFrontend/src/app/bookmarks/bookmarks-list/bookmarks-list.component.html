@@ -22,16 +22,17 @@
                         <td>{{ bookmark.description }}</td>
                         <td><span *ngFor='let tag of bookmark.tags; ; let last = last'>{{tag}}{{ last ? '' : ', '
                                 }}</span></td>
+                        <td><a [routerLink]="" (click)="selectBookmark(bookmark)" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#addBookmarkModal">Edit bookmark</a></td>
                         <td><app-bookmarks-delete [bookmarkName]="bookmark.name"></app-bookmarks-delete></td>
                     </tr>
                 </tbody>
             </table>
         </div>
         <button *ngIf="!errorMessage" type="button" class="btn btn-primary" data-bs-toggle="modal"
-            data-bs-target="#addBookmarkModal">
+            data-bs-target="#addBookmarkModal" (click)="selectBookmark()">
             Add bookmark
         </button>
         <div class="alert alert-warning" *ngIf="errorMessage">{{errorMessage}}</div>
     </div>
 </div>
-<app-bookmarks-add></app-bookmarks-add>
+<app-bookmarks-add [selectedBookmark$]="selectedBookmark$"></app-bookmarks-add>
