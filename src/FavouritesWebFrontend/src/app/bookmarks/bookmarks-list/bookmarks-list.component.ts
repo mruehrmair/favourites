@@ -2,27 +2,23 @@ import { Component, OnInit } from '@angular/core';
 import { IBookmark } from '../bookmark';
 import { BookmarksService } from '../bookmarks-service';
 import { BehaviorSubject, Observable, catchError, of } from 'rxjs';
+import { BookmarkStore } from '../bookmarks.store';
 
 @Component({
   selector: 'app-bookmarks-list',
   templateUrl: './bookmarks-list.component.html',
-  styleUrls: ['./bookmarks-list.component.scss']
+  styleUrls: ['./bookmarks-list.component.scss'],
+  providers: [BookmarkStore]
 })
 export class BookmarksListComponent implements OnInit {
   pageTitle: string = 'Bookmarks';
   errorMessage = '';
-  bookmarks$: Observable<IBookmark[]> | undefined;
+  bookmarks$ = this.bookmarkStore.bookmarks$;
   selectedBookmark$ = new BehaviorSubject<IBookmark>({} as IBookmark);
-  constructor(private bookmarksService: BookmarksService) { }
+  constructor(private bookmarkStore: BookmarkStore ) { }
 
   ngOnInit(): void {
-    this.bookmarks$ = this.bookmarksService.loadAll()
-      .pipe(
-        catchError(err => {
-          this.errorMessage = err;
-          return of([]);
-        })
-      );
+    this.bookmarkStore.getBookmarks();
   }
   selectBookmark(bookmark?: IBookmark): void {
     if (bookmark) {
