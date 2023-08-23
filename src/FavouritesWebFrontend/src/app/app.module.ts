@@ -11,6 +11,8 @@ import { BookmarksDeleteComponent } from './bookmarks/bookmarks-delete/bookmarks
 import { TagsPickerComponent } from './tags/tags-picker/tags-picker.component';
 import { TagsService } from './tags/tags-service';
 import { TagsListComponent } from './tags/tags-list/tags-list.component';
+import { StoreModule } from '@ngrx/store';
+import { bookmarkReducer } from './state/bookmark.reducer';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,8 @@ import { TagsListComponent } from './tags/tags-list/tags-list.component';
     HttpClientModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    StoreModule.forRoot(bookmarkReducer)
   ],
   providers: [BookmarksService, TagsService],
   bootstrap: [AppComponent]
