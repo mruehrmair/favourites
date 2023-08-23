@@ -16,12 +16,12 @@ Microsoft.EntityFrameworkCore.Sqlite
 * dotnet ef database update -s ..\Favourites.API\Favourites.API.csproj
 # Docker
 ## Create local self-signed developer certificate
-If you don't already have self signed developer certificate create one (dotnet dev-certs --check):\
+### If you don't already have self signed developer certificate create one (dotnet dev-certs --check):\
 dotnet dev-certs https --clean\
 dotnet dev-certs https -ep $env:USERPROFILE\.aspnet\https\Favourites.API.pfx -p "password"\
 dotnet dev-certs https --trust\
 dotnet user-secrets -p .\Favourites.API\Favourites.API.csproj set "Kestrel:Certificates:Development:Password" "password"\
-If you already have one, copy it and set the password in the secret storage:\
+### If you already have one, copy it and set the password in the secret storage:\
 cp cert.pfx $env:USERPROFILE\.aspnet\https\Favourites.API.pfx\
 dotnet user-secrets -p .\Favourites.API\Favourites.API.csproj set "Kestrel:Certificates:Development:Password" "password"
 ## Build image
