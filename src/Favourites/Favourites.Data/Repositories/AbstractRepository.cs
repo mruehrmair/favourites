@@ -4,14 +4,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Favourites.Data.Repositories;
 
-public abstract class AbstractRepository<T> : IRepository<T> where T : EntityBase
+public abstract class AbstractRepository<T>(DbContext dbContext) : IRepository<T>
+    where T : EntityBase
 {
-    private readonly DbContext _dbContext;
-
-    protected AbstractRepository(DbContext dbContext)
-    {
-        _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
-    }
+    private readonly DbContext _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
 
     public async Task<ICollection<T>> GetAllAsync(Func<T, bool>? search = null, bool isNoTracking = false, params string[] includes)
     {

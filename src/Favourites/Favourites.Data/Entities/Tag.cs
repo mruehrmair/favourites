@@ -1,10 +1,6 @@
 ﻿namespace Favourites.Data.Entities;
 
-public class Tag : EntityBase
+public class Tag(string name) : EntityBase(name)
 {
     public ICollection<Bookmark>? Bookmarks { get; set; }
-
-    public Tag(string name) : base(name)
-    {
-    }
 }
